@@ -248,23 +248,10 @@
         }
 
         /* MAIN LAYOUT */
-        .page-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 280px;
-            background: var(--sidebar-bg);
-            padding: 2rem 1.5rem;
-            flex-shrink: 0;
-            border-right: 1px solid var(--border);
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 2rem 3rem;
+        .container {
             max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem 2rem;
         }
 
         /* HEADER WITH PHOTO */
@@ -281,15 +268,16 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            background: #ddd;
+            background: url('photo.jpg') center/cover no-repeat, #ddd;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-align: center;
             border: 3px solid var(--accent);
             flex-shrink: 0;
+            padding: 1rem;
         }
 
         .header-text {
@@ -307,65 +295,10 @@
             font-size: 1rem;
             color: var(--muted);
             line-height: 1.7;
+            hyphens: auto;
         }
 
-        /* SIDEBAR */
-        .sidebar-section {
-            margin-bottom: 2rem;
-        }
-
-        .sidebar-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .license-list, .language-list, .hobby-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .license-list li, .language-list li, .hobby-list li {
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
-            color: var(--text);
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .license-list li:before, .language-list li:before, .hobby-list li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .skills-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .skills-list li {
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
-            color: var(--text);
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .skills-list li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        /* MAIN CONTENT */
+        /* SECTIONS */
         .section {
             margin-bottom: 3rem;
         }
@@ -660,22 +593,56 @@
             font-size: 0.9rem;
         }
 
+        /* LISTS */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-section {
+            background: var(--sidebar-bg);
+            padding: 1.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .info-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            color: var(--text);
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .info-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
         .hidden {
             display: none;
         }
 
-        @media (max-width: 1024px) {
-            .page-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                padding: 4rem 1.5rem 2rem;
-            }
-
-            .main-content {
-                padding: 2rem 1.5rem;
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
             }
 
             .hamburger {
@@ -706,6 +673,10 @@
 
             h1 {
                 font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -781,341 +752,365 @@
 
     <!-- ENGLISH VERSION -->
     <div class="content" data-content="en">
-        <div class="page-container">
-            <aside class="sidebar">
-                <div class="sidebar-section" id="licenses">
-                    <div class="sidebar-title">Technical Licenses (UDT)</div>
-                    <ul class="license-list">
-                        <li>Stationary Cranes</li>
-                        <li>Mobile Elevating Work Platforms</li>
-                        <li>Forklifts</li>
-                        <li>Overhead Cranes</li>
+        <div class="container">
+            <div class="header-container" id="about">
+                <div class="profile-photo">
+                    Add photo.jpg to show your photo
+                </div>
+                <div class="header-text">
+                    <h1>Maciej Miernik</h1>
+                    <p class="profile-text">
+                        Assembler and mechanic with 12 years of experience in Poland and Scandinavia. Specialist in power hydraulics, advanced bicycle servicing, and precision mechanics. From building wind energy systems to renovating classic Porsches - I rely on precise technical drawings, attention to detail, and safety standards.
+                    </p>
+                </div>
+            </div>
+
+            <section class="section" id="experience">
+                <h2>Experience</h2>
+                
+                <div class="job" data-job="liftra">
+                    <div class="job-header">
+                        <span class="job-title">Assembly fitter</span>
+                        <span class="company"> | LIFTRA</span>
+                    </div>
+                    <div class="job-meta">July 2023 – Currently | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Precise work with documentation and technical drawings</li>
+                        <li>Assembly of mechanical components and power hydraulics</li>
+                        <li>Assembly of BLADEHAWK and LT1200 crane systems</li>
                     </ul>
+                    <div class="more-link">More</div>
                 </div>
 
-                <div class="sidebar-section" id="skills">
-                    <div class="sidebar-title">Skills</div>
-                    <ul class="skills-list">
-                        <li>Reading technical drawings</li>
-                        <li>Reading assembly documentation</li>
-                        <li>Using specialized tools</li>
-                        <li>Professional bicycle service</li>
-                        <li>Precision mechanics</li>
-                        <li>Installation of power hydraulics</li>
-                        <li>High technical culture</li>
+                <div class="job" data-job="halogaland">
+                    <div class="job-header">
+                        <span class="job-title">Carpenter</span>
+                        <span class="company"> | HÅLOGALAND ELEMENT AS</span>
+                    </div>
+                    <div class="job-meta">April 2022 – September 2022 | Risøyhamn (Norway)</div>
+                    <ul class="job-description">
+                        <li>Production of prefabricated elements in accordance with specifications</li>
+                        <li>Operation of specialized carpentry machines and tools</li>
+                        <li>Assembly of structural details in compliance with quality standards</li>
                     </ul>
+                    <div class="more-link">More</div>
                 </div>
 
-                <div class="sidebar-section" id="languages">
-                    <div class="sidebar-title">Languages</div>
-                    <ul class="language-list">
-                        <li>English (communicative)</li>
-                        <li>Spanish (learning)</li>
+                <div class="job" data-job="synkros">
+                    <div class="job-header">
+                        <span class="job-title">Senior mechanic - complaint handling</span>
+                        <span class="company"> | SYNKROS bike shop</span>
+                    </div>
+                    <div class="job-meta">March 2018 – March 2022 | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Comprehensive mechanical service and diagnostics</li>
+                        <li>Professional technical advice and customer service</li>
+                        <li>Management of shop and service operations</li>
                     </ul>
+                    <div class="more-link">More</div>
                 </div>
 
-                <div class="sidebar-section" id="hobbies">
-                    <div class="sidebar-title">Hobbies</div>
-                    <ul class="hobby-list">
-                        <li>Cycling (enduro, gravel)</li>
-                        <li>Mechanics</li>
+                <div class="job" data-job="reincarnation">
+                    <div class="job-header">
+                        <span class="job-title">Junior engine mechanic</span>
+                        <span class="company"> | REIN-CAR-NATION classic car</span>
+                    </div>
+                    <div class="job-meta">October 2017 – February 2018 | Stobno</div>
+                    <ul class="job-description">
+                        <li>Comprehensive renovation and restoration of classic Porsche models</li>
+                        <li>Precise assembly of mechanical parts and components</li>
+                        <li>Diagnostics and regeneration of unique components</li>
                     </ul>
-                </div>
-            </aside>
-
-            <main class="main-content">
-                <div class="header-container" id="about">
-                    <div class="profile-photo">
-                        Photo placeholder
-                    </div>
-                    <div class="header-text">
-                        <h1>Maciej Miernik</h1>
-                        <p class="profile-text">
-                            Assembler and mechanic with 12 years of experience in Poland and Scandinavia. Specialist in power hydraulics, advanced bicycle servicing, and precision mechanics. From building systems for wind energy to renovating classic Porsches - in my work, I rely on precise technical drawings, attention to detail, and health and safety standards.
-                        </p>
-                    </div>
+                    <div class="more-link">More</div>
                 </div>
 
-                <section class="section" id="experience">
-                    <h2>Experience</h2>
-                    
-                    <div class="job" data-job="liftra">
-                        <div class="job-header">
-                            <span class="job-title">Assembly fitter</span>
-                            <span class="company"> | LIFTRA</span>
-                        </div>
-                        <div class="job-meta">July 2023 – Currently | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Precise work with documentation and technical drawings</li>
-                            <li>Assembly of mechanical components and power hydraulics</li>
-                            <li>Assembly of BLADEHAWK and LT1200 crane systems</li>
-                        </ul>
-                        <div class="more-link">More</div>
+                <div class="job" data-job="hiperglazur">
+                    <div class="job-header">
+                        <span class="job-title">Customer advisor</span>
+                        <span class="company"> | HIPER-GLAZUR paint & bathroom</span>
                     </div>
+                    <div class="job-meta">April 2016 – September 2017 | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Professional technical consulting in the field of construction chemicals</li>
+                        <li>Operation of specialized equipment for mixing paints and plasters</li>
+                        <li>Inventory management and delivery logistics</li>
+                    </ul>
+                    <div class="more-link">More</div>
+                </div>
 
-                    <div class="job" data-job="halogaland">
-                        <div class="job-header">
-                            <span class="job-title">Carpenter</span>
-                            <span class="company"> | HÅLOGALAND ELEMENT AS</span>
-                        </div>
-                        <div class="job-meta">April 2022 – September 2022 | Risøyhamn (Norway)</div>
-                        <ul class="job-description">
-                            <li>Production of prefabricated elements in accordance with specifications</li>
-                            <li>Operation of specialized carpentry machines and tools</li>
-                            <li>Assembly of structural details in compliance with quality standards</li>
-                        </ul>
-                        <div class="more-link">More</div>
+                <div class="job" data-job="markona">
+                    <div class="job-header">
+                        <span class="job-title">Reinforcement worker - formwork carpenter</span>
+                        <span class="company"> | MARKONA AB Markförädling</span>
                     </div>
+                    <div class="job-meta">February 2014 – February 2016 | Enköping (Sweden)</div>
+                    <ul class="job-description">
+                        <li>Construction of reinforced concrete structures in accordance with standards</li>
+                        <li>Assembly of formwork systems based on technical drawings</li>
+                        <li>Operation of specialized construction equipment</li>
+                    </ul>
+                    <div class="more-link">More</div>
+                </div>
 
-                    <div class="job" data-job="synkros">
-                        <div class="job-header">
-                            <span class="job-title">Senior mechanic - complaint handling</span>
-                            <span class="company"> | SYNKROS bike shop</span>
-                        </div>
-                        <div class="job-meta">March 2018 – March 2022 | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Comprehensive mechanical service and diagnostics</li>
-                            <li>Professional technical advice and customer service</li>
-                            <li>Management of shop and service operations</li>
-                        </ul>
-                        <div class="more-link">More</div>
+                <div class="job" data-job="kadrzynski">
+                    <div class="job-header">
+                        <span class="job-title">Mechanic</span>
+                        <span class="company"> | KADRZYŃSKI bike shop</span>
                     </div>
+                    <div class="job-meta">January 2012 – December 2013 | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Service and maintenance of all types of bicycles</li>
+                        <li>Assembly and pre-sale preparation of equipment</li>
+                    </ul>
+                    <div class="more-link">More</div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="reincarnation">
-                        <div class="job-header">
-                            <span class="job-title">Junior engine mechanic</span>
-                            <span class="company"> | REIN-CAR-NATION classic car</span>
-                        </div>
-                        <div class="job-meta">October 2017 – February 2018 | Stobno</div>
-                        <ul class="job-description">
-                            <li>Comprehensive renovation and restoration of classic Porsche models</li>
-                            <li>Precise assembly of mechanical parts and components</li>
-                            <li>Diagnostics and regeneration of unique components</li>
-                        </ul>
-                        <div class="more-link">More</div>
-                    </div>
+            <section class="section" id="education">
+                <h2>Education</h2>
+                <div class="education">
+                    <div class="education-title">Secondary Technical School of Building</div>
+                    <div class="education-meta">2007 – 2011 | Szczecin</div>
+                    <div class="education-details">Technologist Finishing Work / General Construction</div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="hiperglazur">
-                        <div class="job-header">
-                            <span class="job-title">Customer advisor</span>
-                            <span class="company"> | HIPER-GLAZUR paint & bathroom</span>
-                        </div>
-                        <div class="job-meta">April 2016 – September 2017 | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Professional technical consulting in the field of construction chemicals</li>
-                            <li>Operation of specialized equipment for mixing paints and plasters</li>
-                            <li>Inventory management and delivery logistics</li>
+            <section class="section" id="licenses">
+                <h2>Technical Licenses (UDT)</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Stationary Cranes</li>
+                            <li>Mobile Elevating Work Platforms</li>
+                            <li>Forklifts</li>
+                            <li>Overhead Cranes</li>
                         </ul>
-                        <div class="more-link">More</div>
                     </div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="markona">
-                        <div class="job-header">
-                            <span class="job-title">Reinforcement worker - formwork carpenter</span>
-                            <span class="company"> | MARKONA AB Markförädling</span>
-                        </div>
-                        <div class="job-meta">February 2014 – February 2016 | Enköping (Sweden)</div>
-                        <ul class="job-description">
-                            <li>Construction of reinforced concrete structures in accordance with standards</li>
-                            <li>Assembly of formwork systems based on technical drawings</li>
-                            <li>Operation of specialized construction equipment</li>
+            <section class="section" id="skills">
+                <h2>Skills</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Reading technical drawings</li>
+                            <li>Reading assembly documentation</li>
+                            <li>Using specialized tools</li>
+                            <li>Professional bicycle service</li>
+                            <li>Precision mechanics</li>
+                            <li>Installation of power hydraulics</li>
+                            <li>High technical culture</li>
                         </ul>
-                        <div class="more-link">More</div>
                     </div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="kadrzynski">
-                        <div class="job-header">
-                            <span class="job-title">Mechanic</span>
-                            <span class="company"> | KADRZYŃSKI bike shop</span>
-                        </div>
-                        <div class="job-meta">January 2012 – December 2013 | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Service and maintenance of all types of bicycles</li>
-                            <li>Assembly and pre-sale preparation of equipment</li>
+            <section class="section" id="languages">
+                <h2>Languages</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>English (communicative)</li>
+                            <li>Spanish (learning)</li>
                         </ul>
-                        <div class="more-link">More</div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <section class="section" id="education">
-                    <h2>Education</h2>
-                    <div class="education">
-                        <div class="education-title">Secondary Technical School of Building</div>
-                        <div class="education-meta">2007 – 2011 | Szczecin</div>
-                        <div class="education-details">Technologist Finishing Work / General Construction</div>
+            <section class="section" id="hobbies">
+                <h2>Hobbies</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Cycling (enduro, gravel)</li>
+                            <li>Mechanics</li>
+                        </ul>
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
         </div>
     </div>
 
     <!-- POLISH VERSION -->
     <div class="content hidden" data-content="pl">
-        <div class="page-container">
-            <aside class="sidebar">
-                <div class="sidebar-section" id="licenses-pl">
-                    <div class="sidebar-title">Uprawnienia (UDT)</div>
-                    <ul class="license-list">
-                        <li>Żurawie stacjonarne</li>
-                        <li>Podesty ruchome przejezdne</li>
-                        <li>Wózki jezdniowe podnośnikowe</li>
-                        <li>Suwnice, wciągniki i wciągarki</li>
+        <div class="container">
+            <div class="header-container" id="about-pl">
+                <div class="profile-photo">
+                    Dodaj photo.jpg żeby pokazać zdjęcie
+                </div>
+                <div class="header-text">
+                    <h1>Maciej Miernik</h1>
+                    <p class="profile-text">
+                        Monter i mechanik z 12-letnim doświadczeniem w Polsce i Skandynawii. Specjalista od hydrauliki siłowej, zaawansowanego serwisu rowerowego oraz mechaniki precyzyjnej. Od budowy systemów dla energetyki wiatrowej po renowację klasycznych Porsche – w pracy bazuję na precyzyjnym rysunku technicznym, dbałości o detale i standardach BHP.
+                    </p>
+                </div>
+            </div>
+
+            <section class="section" id="experience-pl">
+                <h2>Doświadczenie</h2>
+                
+                <div class="job" data-job="liftra">
+                    <div class="job-header">
+                        <span class="job-title">Monter</span>
+                        <span class="company"> | LIFTRA</span>
+                    </div>
+                    <div class="job-meta">Lipiec 2023 – Obecnie | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Precyzyjna praca z dokumentacją i rysunkiem technicznym</li>
+                        <li>Montaż podzespołów mechanicznych i hydrauliki siłowej</li>
+                        <li>Montaż systemów dźwigowych LT1200 oraz BLADEHAWK</li>
                     </ul>
+                    <div class="more-link">Więcej</div>
                 </div>
 
-                <div class="sidebar-section" id="skills-pl">
-                    <div class="sidebar-title">Umiejętności</div>
-                    <ul class="skills-list">
-                        <li>Czytanie rysunku technicznego</li>
-                        <li>Czytanie dokumentacji złożeniowej</li>
-                        <li>Obsługa specjalistycznych narzędzi</li>
-                        <li>Profesjonalny serwis rowerowy</li>
-                        <li>Mechanika precyzyjna</li>
-                        <li>Montaż i diagnostyka hydrauliki siłowej</li>
-                        <li>Wysoka kultura techniczna</li>
+                <div class="job" data-job="halogaland">
+                    <div class="job-header">
+                        <span class="job-title">Stolarz</span>
+                        <span class="company"> | HÅLOGALAND ELEMENT AS</span>
+                    </div>
+                    <div class="job-meta">Kwiecień 2022 – Wrzesień 2022 | Risøyhamn (Norwegia)</div>
+                    <ul class="job-description">
+                        <li>Produkcja prefabrykowanych elementów zgodnie ze specyfikacją</li>
+                        <li>Obsługa specjalistycznych maszyn i narzędzi stolarskich</li>
+                        <li>Montaż detali konstrukcyjnych z zachowaniem norm jakościowych</li>
                     </ul>
+                    <div class="more-link">Więcej</div>
                 </div>
 
-                <div class="sidebar-section" id="languages-pl">
-                    <div class="sidebar-title">Języki</div>
-                    <ul class="language-list">
-                        <li>Angielski (komunikatywny)</li>
-                        <li>Hiszpański (uczę się)</li>
+                <div class="job" data-job="synkros">
+                    <div class="job-header">
+                        <span class="job-title">Starszy mechanik - obsługa reklamacyjna</span>
+                        <span class="company"> | SYNKROS</span>
+                    </div>
+                    <div class="job-meta">Marzec 2018 – Marzec 2022 | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Kompleksowy serwis mechaniczny oraz diagnostyka</li>
+                        <li>Profesjonalne doradztwo techniczne i obsługa klienta</li>
+                        <li>Zarządzanie bieżącą działalnością sklepu i serwisu</li>
                     </ul>
+                    <div class="more-link">Więcej</div>
                 </div>
 
-                <div class="sidebar-section" id="hobbies-pl">
-                    <div class="sidebar-title">Zainteresowania</div>
-                    <ul class="hobby-list">
-                        <li>Kolarstwo (enduro, gravel)</li>
-                        <li>Mechanika</li>
+                <div class="job" data-job="reincarnation">
+                    <div class="job-header">
+                        <span class="job-title">Mechanik</span>
+                        <span class="company"> | REIN-CAR-NATION</span>
+                    </div>
+                    <div class="job-meta">Październik 2017 – Luty 2018 | Stobno</div>
+                    <ul class="job-description">
+                        <li>Kompleksowa renowacja i odbudowa klasycznych modeli Porsche</li>
+                        <li>Precyzyjny montaż elementów oraz podzespołów mechanicznych</li>
+                        <li>Diagnostyka i regeneracja unikatowych komponentów</li>
                     </ul>
-                </div>
-            </aside>
-
-            <main class="main-content">
-                <div class="header-container" id="about-pl">
-                    <div class="profile-photo">
-                        Miejsce na zdjęcie
-                    </div>
-                    <div class="header-text">
-                        <h1>Maciej Miernik</h1>
-                        <p class="profile-text">
-                            Monter i mechanik z 12-letnim doświadczeniem w Polsce i Skandynawii. Specjalista od hydrauliki siłowej, zaawansowanego serwisu rowerowego oraz mechaniki precyzyjnej. Od budowy systemów dla energetyki wiatrowej po renowację klasycznych Porsche – w pracy bazuję na precyzyjnym rysunku technicznym, dbałości o detale oraz standardach BHP.
-                        </p>
-                    </div>
+                    <div class="more-link">Więcej</div>
                 </div>
 
-                <section class="section" id="experience-pl">
-                    <h2>Doświadczenie</h2>
-                    
-                    <div class="job" data-job="liftra">
-                        <div class="job-header">
-                            <span class="job-title">Monter</span>
-                            <span class="company"> | LIFTRA</span>
-                        </div>
-                        <div class="job-meta">Lipiec 2023 – Obecnie | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Precyzyjna praca z dokumentacją i rysunkiem technicznym</li>
-                            <li>Montaż podzespołów mechanicznych i hydrauliki siłowej</li>
-                            <li>Montaż systemów dźwigowych LT1200 oraz BLADEHAWK</li>
-                        </ul>
-                        <div class="more-link">Więcej</div>
+                <div class="job" data-job="hiperglazur">
+                    <div class="job-header">
+                        <span class="job-title">Doradca klienta</span>
+                        <span class="company"> | HIPER-GLAZUR</span>
                     </div>
+                    <div class="job-meta">Kwiecień 2016 – Wrzesień 2017 | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Profesjonalne doradztwo techniczne w zakresie chemii budowlanej</li>
+                        <li>Obsługa specjalistycznych urządzeń do mieszania farb i tynków</li>
+                        <li>Zarządzanie stanami magazynowymi i logistyką dostaw</li>
+                    </ul>
+                    <div class="more-link">Więcej</div>
+                </div>
 
-                    <div class="job" data-job="halogaland">
-                        <div class="job-header">
-                            <span class="job-title">Stolarz</span>
-                            <span class="company"> | HÅLOGALAND ELEMENT AS</span>
-                        </div>
-                        <div class="job-meta">Kwiecień 2022 – Wrzesień 2022 | Risøyhamn (Norwegia)</div>
-                        <ul class="job-description">
-                            <li>Produkcja prefabrykowanych elementów zgodnie ze specyfikacją</li>
-                            <li>Obsługa specjalistycznych maszyn i narzędzi stolarskich</li>
-                            <li>Montaż detali konstrukcyjnych z zachowaniem norm jakościowych</li>
-                        </ul>
-                        <div class="more-link">Więcej</div>
+                <div class="job" data-job="markona">
+                    <div class="job-header">
+                        <span class="job-title">Zbrojarz - cieśla szalunkowy</span>
+                        <span class="company"> | MARKONA AB Markförädling</span>
                     </div>
+                    <div class="job-meta">Luty 2014 – Luty 2016 | Enköping (Szwecja)</div>
+                    <ul class="job-description">
+                        <li>Wykonawstwo konstrukcji żelbetowych zgodnie z normami</li>
+                        <li>Montaż systemów szalunkowych na podstawie rys. technicznego</li>
+                        <li>Obsługa specjalistycznego sprzętu budowlanego</li>
+                    </ul>
+                    <div class="more-link">Więcej</div>
+                </div>
 
-                    <div class="job" data-job="synkros">
-                        <div class="job-header">
-                            <span class="job-title">Starszy mechanik - obsługa reklamacyjna</span>
-                            <span class="company"> | SYNKROS</span>
-                        </div>
-                        <div class="job-meta">Marzec 2018 – Marzec 2022 | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Kompleksowy serwis mechaniczny oraz diagnostyka</li>
-                            <li>Profesjonalne doradztwo techniczne i obsługa klienta</li>
-                            <li>Zarządzanie bieżącą działalnością sklepu i serwisu</li>
-                        </ul>
-                        <div class="more-link">Więcej</div>
+                <div class="job" data-job="kadrzynski">
+                    <div class="job-header">
+                        <span class="job-title">Mechanik</span>
+                        <span class="company"> | KADRZYŃSKI</span>
                     </div>
+                    <div class="job-meta">Styczeń 2012 – Grudzień 2013 | Szczecin</div>
+                    <ul class="job-description">
+                        <li>Serwis i konserwacja rowerów wszystkich typów</li>
+                        <li>Montaż oraz przygotowywanie sprzętu do sprzedaży</li>
+                    </ul>
+                    <div class="more-link">Więcej</div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="reincarnation">
-                        <div class="job-header">
-                            <span class="job-title">Mechanik</span>
-                            <span class="company"> | REIN-CAR-NATION</span>
-                        </div>
-                        <div class="job-meta">Październik 2017 – Luty 2018 | Stobno</div>
-                        <ul class="job-description">
-                            <li>Kompleksowa renowacja i odbudowa klasycznych modeli Porsche</li>
-                            <li>Precyzyjny montaż elementów oraz podzespołów mechanicznych</li>
-                            <li>Diagnostyka i regeneracja unikatowych komponentów</li>
-                        </ul>
-                        <div class="more-link">Więcej</div>
-                    </div>
+            <section class="section" id="education-pl">
+                <h2>Edukacja</h2>
+                <div class="education">
+                    <div class="education-title">Technikum Budowlane</div>
+                    <div class="education-meta">2007 – 2011 | Szczecin</div>
+                    <div class="education-details">Technolog robót wykończeniowych w budownictwie</div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="hiperglazur">
-                        <div class="job-header">
-                            <span class="job-title">Doradca klienta</span>
-                            <span class="company"> | HIPER-GLAZUR</span>
-                        </div>
-                        <div class="job-meta">Kwiecień 2016 – Wrzesień 2017 | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Profesjonalne doradztwo techniczne w zakresie chemii budowlanej</li>
-                            <li>Obsługa specjalistycznych urządzeń do mieszania farb i tynków</li>
-                            <li>Zarządzanie stanami magazynowymi i logistyką dostaw</li>
+            <section class="section" id="licenses-pl">
+                <h2>Uprawnienia (UDT)</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Żurawie stacjonarne</li>
+                            <li>Podesty ruchome przejezdne</li>
+                            <li>Wózki jezdniowe podnośnikowe</li>
+                            <li>Suwnice, wciągniki i wciągarki</li>
                         </ul>
-                        <div class="more-link">Więcej</div>
                     </div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="markona">
-                        <div class="job-header">
-                            <span class="job-title">Zbrojarz - cieśla szalunkowy</span>
-                            <span class="company"> | MARKONA AB Markförädling</span>
-                        </div>
-                        <div class="job-meta">Luty 2014 – Luty 2016 | Enköping (Szwecja)</div>
-                        <ul class="job-description">
-                            <li>Wykonawstwo konstrukcji żelbetowych zgodnie z normami</li>
-                            <li>Montaż systemów szalunkowych na podstawie rys. technicznego</li>
-                            <li>Obsługa specjalistycznego sprzętu budowlanego</li>
+            <section class="section" id="skills-pl">
+                <h2>Umiejętności</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Czytanie rysunku technicznego</li>
+                            <li>Czytanie dokumentacji złożeniowej</li>
+                            <li>Obsługa specjalistycznych narzędzi</li>
+                            <li>Profesjonalny serwis rowerowy</li>
+                            <li>Mechanika precyzyjna</li>
+                            <li>Montaż i diagnostyka hydrauliki siłowej</li>
+                            <li>Wysoka kultura techniczna</li>
                         </ul>
-                        <div class="more-link">Więcej</div>
                     </div>
+                </div>
+            </section>
 
-                    <div class="job" data-job="kadrzynski">
-                        <div class="job-header">
-                            <span class="job-title">Mechanik</span>
-                            <span class="company"> | KADRZYŃSKI</span>
-                        </div>
-                        <div class="job-meta">Styczeń 2012 – Grudzień 2013 | Szczecin</div>
-                        <ul class="job-description">
-                            <li>Serwis i konserwacja rowerów wszystkich typów</li>
-                            <li>Montaż oraz przygotowywanie sprzętu do sprzedaży</li>
+            <section class="section" id="languages-pl">
+                <h2>Języki</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Angielski (komunikatywny)</li>
+                            <li>Hiszpański (uczę się)</li>
                         </ul>
-                        <div class="more-link">Więcej</div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <section class="section" id="education-pl">
-                    <h2>Edukacja</h2>
-                    <div class="education">
-                        <div class="education-title">Technikum Budowlane</div>
-                        <div class="education-meta">2007 – 2011 | Szczecin</div>
-                        <div class="education-details">Technolog robót wykończeniowych w budownictwie</div>
+            <section class="section" id="hobbies-pl">
+                <h2>Zainteresowania</h2>
+                <div class="info-grid">
+                    <div class="info-section">
+                        <ul class="info-list">
+                            <li>Kolarstwo (enduro, gravel)</li>
+                            <li>Mechanika</li>
+                        </ul>
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -1125,14 +1120,12 @@
             <div class="modal-close">
                 <button class="close-btn" id="closeModal">×</button>
             </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Content will be injected here -->
-            </div>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
     <script>
-        // Job data with locations
+        // Job data
         const jobData = {
             liftra: {
                 en: {
@@ -1316,10 +1309,9 @@
             }
         };
 
-        // Current language
         let currentLang = 'en';
 
-        // Hamburger menu toggle
+        // Hamburger menu
         const hamburger = document.getElementById('hamburger');
         const sideMenu = document.getElementById('sideMenu');
         const menuOverlay = document.getElementById('menuOverlay');
@@ -1336,26 +1328,22 @@
             menuOverlay.classList.remove('active');
         });
 
-        // Update menu text based on language
         function updateMenuLanguage(lang) {
             document.querySelectorAll('[data-en]').forEach(el => {
                 el.textContent = el.getAttribute(`data-${lang}`);
             });
         }
 
-        // Menu links smooth scroll
         document.querySelectorAll('.menu-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = link.getAttribute('href');
                 const element = document.querySelector(target);
                 if (element) {
-                    // Close menu
                     hamburger.classList.remove('active');
                     sideMenu.classList.remove('active');
                     menuOverlay.classList.remove('active');
                     
-                    // Scroll to element
                     setTimeout(() => {
                         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }, 300);
@@ -1386,14 +1374,13 @@
             });
         });
 
-        // Modal functionality
+        // Modal
         const modal = document.getElementById('modal');
         const modalBody = document.getElementById('modalBody');
         const closeModal = document.getElementById('closeModal');
 
         function openJobModal(jobId) {
             const job = jobData[jobId][currentLang];
-            
             const descriptionHtml = job.description.map(item => `<li>${item}</li>`).join('');
             const locationLabel = currentLang === 'en' ? 'Location' : 'Lokalizacja';
             const viewMapLabel = currentLang === 'en' ? 'View on Map' : 'Zobacz na mapie';
@@ -1406,7 +1393,6 @@
                     <div class="modal-company">${job.company}</div>
                     <div class="modal-meta">${job.period}</div>
                 </div>
-
                 <div class="modal-location">
                     <h3>${locationLabel}</h3>
                     <p style="margin-bottom: 1rem; color: var(--text);">${job.location}</p>
@@ -1415,17 +1401,11 @@
                         ${viewMapLabel}
                     </a>
                 </div>
-
                 <div class="modal-description">
                     <h3>${responsibilitiesLabel}</h3>
-                    <ul>
-                        ${descriptionHtml}
-                    </ul>
+                    <ul>${descriptionHtml}</ul>
                 </div>
-
-                <div class="modal-image">
-                    ${photoLabel}
-                </div>
+                <div class="modal-image">${photoLabel}</div>
             `;
 
             modal.classList.add('active');
@@ -1437,27 +1417,19 @@
             document.body.style.overflow = '';
         }
 
-        // Job card clicks
         document.querySelectorAll('.job').forEach(jobCard => {
             jobCard.addEventListener('click', () => {
-                const jobId = jobCard.dataset.job;
-                openJobModal(jobId);
+                openJobModal(jobCard.dataset.job);
             });
         });
 
-        // Close modal
         closeModal.addEventListener('click', closeJobModal);
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeJobModal();
-            }
+            if (e.target === modal) closeJobModal();
         });
 
-        // Keyboard support
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeJobModal();
-            }
+            if (e.key === 'Escape') closeJobModal();
         });
     </script>
 </body>
