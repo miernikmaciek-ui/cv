@@ -3,120 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maciej Miernik - CV Monter & Mechanik</title>
+    <title>Maciej Miernik - CV Online</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --main-blue: #3498db; --text: #333; --light: #f8f9fa; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: var(--text); margin: 0; padding: 0; background: #eee; }
-        .page { max-width: 900px; margin: 40px auto; background: #fff; padding: 50px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-        
-        header { border-bottom: 3px solid var(--main-blue); padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
-        h1 { margin: 0; font-size: 2.8rem; letter-spacing: 2px; text-transform: uppercase; }
-        .subtitle { color: var(--main-blue); font-weight: bold; font-size: 1.2rem; }
+        :root {
+            --sidebar-blue: #4a74d4; /* Ten specyficzny błękit ze zdjęcia */
+            --text-gray: #444;
+            --light-gray: #777;
+        }
 
-        .top-info { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-        .contact-list { list-style: none; padding: 0; font-size: 0.9rem; }
-        .contact-list li { margin-bottom: 8px; }
-        .contact-list i { color: var(--main-blue); width: 20px; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            background: #e9e9e9;
+            color: var(--text-gray);
+        }
 
-        h2 { border-bottom: 1px solid #ddd; padding-bottom: 5px; color: var(--main-blue); text-transform: uppercase; font-size: 1.1rem; margin-top: 30px; }
-        
-        .experience-item { margin-bottom: 25px; }
-        .exp-head { display: flex; justify-content: space-between; font-weight: bold; }
-        .exp-location { color: #888; font-size: 0.85rem; margin-bottom: 5px; }
-        ul { padding-left: 20px; margin: 5px 0; }
-        
-        .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; font-size: 0.9rem; }
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 320px;
+            background-color: var(--sidebar-blue);
+            color: white;
+            min-height: 100vh;
+            padding: 40px 30px;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
 
-        .portfolio-box { border: 2px dashed #ddd; padding: 20px; text-align: center; color: #aaa; margin-top: 20px; border-radius: 10px; }
-        
-        @media (max-width: 600px) { .top-info, .skills-grid { grid-template-columns: 1fr; } .page { padding: 20px; margin: 0; } }
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: #fff url('twoje-zdjece.jpg') center/cover; /* Tu wstawisz link do zdjęcia */
+            margin: 0 auto 30px;
+            border: 5px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .contact-link i {
+            width: 25px;
+            font-size: 1.1rem;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        .side-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main {
+            flex-grow: 1;
+            background: white;
+            padding: 50px 60px;
+            max-width: 900px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .lang-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-lang {
+            padding: 6px 15px;
+            border: 2px solid var(--sidebar-blue);
+            background: transparent;
+            color: var(--sidebar-blue);
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .btn-lang.active {
+            background: var(--sidebar-blue);
+            color: white;
+        }
+
+        h3.section-header {
+            color: var(--sidebar-blue);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .profile-desc {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .exp-item {
+            margin-bottom: 30px;
+        }
+
+        .exp-title {
+            font-weight: bold;
+            font-size: 1.05rem;
+            color: #000;
+        }
+
+        .exp-meta {
+            font-size: 0.8rem;
+            color: var(--light-gray);
+            text-transform: uppercase;
+            margin: 4px 0 10px 0;
+        }
+
+        .exp-desc {
+            list-style: none;
+            padding-left: 15px;
+            font-size: 0.9rem;
+        }
+
+        .exp-desc li::before {
+            content: "-";
+            margin-right: 8px;
+        }
+
+        @media (max-width: 850px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; min-height: auto; }
+            .main { padding: 30px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="page">
-    <header>
-        <h1>Maciej Miernik</h1>
-        <div class="subtitle">Monter & Mechanik Precyzyjny</div>
-    </header>
+    <aside class="sidebar">
+        <div class="profile-pic"></div>
+        
+        <h2 id="label-contact">Kontakt</h2>
+        <a href="tel:+48665571260" class="contact-link"><i class="fas fa-phone"></i> +48 665 571 260</a>
+        <a href="mailto:miernik.maciek@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> miernik.maciek@gmail.com</a>
+        <div class="contact-link"><i class="fas fa-map-marker-alt"></i> Szczecin, Polska</div>
+        <a href="#" class="contact-link"><i class="fab fa-linkedin"></i> Maciej Miernik</a>
+        <a href="#" class="contact-link"><i class="fab fa-instagram"></i> Mackezzy Wheel Builder</a>
 
-    <div class="top-info">
-        <div>
-            <h2>Kontakt</h2>
-            <ul class="contact-list">
-                <li><i class="fas fa-phone"></i> +48 665 571 260</li>
-                <li><i class="fas fa-envelope"></i> miernik.maciek@gmail.com</li>
-                <li><i class="fas fa-location-dot"></i> Szczecin, Polska</li>
-                <li><i class="fab fa-linkedin"></i> linkedin.com/in/maciej-miernik</li>
-            </ul>
+        <h2 id="label-udt">UDT</h2>
+        <ul id="list-udt" class="side-list"></ul>
+
+        <h2 id="label-skills">Umiejętności</h2>
+        <ul id="list-skills" class="side-list"></ul>
+
+        <h2 id="label-lang">Języki</h2>
+        <ul id="list-languages" class="side-list"></ul>
+
+        <h2 id="label-hobbies">Zainteresowania</h2>
+        <ul id="list-hobbies" class="side-list"></ul>
+    </aside>
+
+    <main class="main">
+        <div class="header-top">
+            <h1>Maciej Miernik</h1>
+            <div class="lang-btns">
+                <button class="btn-lang active" onclick="changeLang('pl')">PL</button>
+                <button class="btn-lang" onclick="changeLang('en')">EN</button>
+            </div>
         </div>
-        <div>
-            <h2>O mnie</h2>
-            <p style="font-size: 0.9rem;">Monter i mechanik z 12-letnim doświadczeniem. Specjalista od hydrauliki siłowej, serwisu rowerowego oraz mechaniki precyzyjnej. [cite: 3]</p>
-        </div>
-    </div>
 
-    <div class="skills-grid">
-        <div>
-            <h2>Uprawnienia UDT</h2>
-            <ul style="padding-left: 15px;">
-                <li>Żurawie stacjonarne [cite: 12]</li>
-                <li>Podesty ruchome [cite: 13]</li>
-                <li>Wózki podnośnikowe [cite: 14]</li>
-                <li>Suwnice i wciągarki [cite: 15]</li>
-            </ul>
-        </div>
-        <div>
-            <h2>Umiejętności</h2>
-            <ul style="padding-left: 15px;">
-                <li>Rysunek techniczny [cite: 16]</li>
-                <li>Hydraulika siłowa [cite: 16]</li>
-                <li>Mechanika precyzyjna [cite: 16]</li>
-                <li>Serwis rowerowy [cite: 16]</li>
-            </ul>
-        </div>
-        <div>
-            <h2>Języki</h2>
-            <p>Angielski (Komunikatywny) [cite: 22]<br>Hiszpański (Podstawowy) [cite: 23]</p>
-        </div>
-    </div>
+        <h3 class="section-header" id="label-profile">O Mnie</h3>
+        <p class="profile-desc" id="desc-profile"></p>
 
-    <h2>Doświadczenie zawodowe</h2>
+        <h3 class="section-header" id="label-experience">Doświadczenie</h3>
+        <div id="experience-container"></div>
 
-    <div class="experience-item">
-        <div class="exp-head"><span>LIFTRA | Monter</span><span>07.2023 - OBECNIE</span></div>
-        <div class="exp-location">SZCZECIN</div>
-        <ul>
-            <li>Montaż systemów dźwigowych LT1200 oraz BLADEHAWK [cite: 30]</li>
-            <li>Praca z dokumentacją i hydrauliką siłową [cite: 30]</li>
-        </ul>
-    </div>
+        <h3 class="section-header" id="label-education">Edukacja</h3>
+        <div id="education-container"></div>
+    </main>
 
-    <div class="experience-item">
-        <div class="exp-head"><span>REIN-CAR-NATION | Mechanik</span><span>2017 - 2018</span></div>
-        <div class="exp-location">STOBNO</div>
-        <ul>
-            <li>Kompleksowa renowacja klasycznych modeli Porsche [cite: 38]</li>
-            <li>Precyzyjny montaż i diagnostyka unikatowych komponentów [cite: 38, 39]</li>
-        </ul>
-    </div>
+    <script>
+        const data = {
+            pl: {
+                labels: {
+                    contact: "Kontakt", udt: "UDT", skills: "Umiejętności", lang: "Języki", hobbies: "Zainteresowania",
+                    profile: "O Mnie", experience: "Doświadczenie", education: "Edukacja"
+                },
+                profile: "Monter i mechanik z 12-letnim doświadczeniem w Polsce i Skandynawii. Specjalista od hydrauliki siłowej, zaawansowanego serwisu rowerowego oraz mechaniki precyzyjnej. Od budowy systemów dla energetyki wiatrowej po renowację klasycznych Porsche – w pracy bazuję na precyzyjnym rysunku technicznym, dbałości o detale oraz standardach BHP.",
+                udt: ["Żurawie stacjonarne", "Podesty ruchome przejezdne", "Wózki jezdniowe podnośnikowe", "Suwnice, wciągniki i wciągarki"],
+                skills: ["Czytanie rysunku technicznego", "Czytanie dokumentacji złożeniowej", "Obsługa specjalistycznych narzędzi", "Profesjonalny serwis rowerowy", "Mechanika precyzyjna", "Montaż i diagnostyka hydrauliki siłowej", "Wysoka kultura techniczna"],
+                languages: ["Angielski (komunikatywny)", "Hiszpański (uczę się)"],
+                hobbies: ["Kolarstwo (enduro, gravel)", "Mechanika"],
+                experience: [
+                    { company: "LIFTRA | Monter", date: "LIPIEC 2023 – OBECNIE | SZCZECIN", tasks: ["precyzyjna praca z dokumentacją i rysunkiem technicznym", "montaż podzespołów mechanicznych i hydrauliki siłowej", "montaż systemów dźwigowych LT1200 oraz BLADEHAWK"] },
+                    { company: "HÅLOGALAND ELEMENT AS | Stolarz", date: "KWIECIEŃ 2022 – WRZESIEŃ 2022 | RISØYHAMN (NORWEGIA)", tasks: ["produkcja prefabrykowanych elementów zgodnie ze specyfikacją", "obsługa specjalistycznych maszyn i narzędzi stolarskich", "montaż detali konstrukcyjnych z zachowaniem norm jakościowych"] },
+                    { company: "SYNKROS | Starszy mechanik", date: "MARZEC 2018 – MARZEC 2022 | SZCZECIN", tasks: ["kompleksowy serwis mechaniczny oraz diagnostyka", "profesjonalne doradztwo techniczne i obsługa klienta", "zarządzanie bieżącą działalnością sklepu i serwisu"] },
+                    { company: "REIN-CAR-NATION | Mechanik", date: "PAŹDZIERNIK 2017 – LUTY 2018 | STOBNO", tasks: ["kompleksowa renowacja i odbudowa klasycznych modeli Porsche", "precyzyjny montaż elementów oraz podzespołów mechanicznych", "diagnostyka i regeneracja unikatowych komponentów"] }
+                ],
+                education: [{ school: "TECHNIKUM BUDOWLANE", date: "2007 – 2011 | SZCZECIN", desc: "Technolog robót wykończeniowych w budownictwie" }]
+            },
+            en: {
+                labels: {
+                    contact: "Contact", udt: "Technical Licenses", skills: "Skills", lang: "Languages", hobbies: "Hobbies",
+                    profile: "Profile", experience: "Experience", education: "Education"
+                },
+                profile: "Assembler and mechanic with 12 years of experience in Poland and Scandinavia. Specialist in power hydraulics, advanced bicycle servicing, and precision mechanics. From building systems for wind energy to renovating classic Porsches - in my work, I rely on precise technical drawings, attention to detail, and health and safety standards.",
+                udt: ["Stationary Cranes", "Mobile Elevating Work Platforms", "Forklifts", "Overhead Cranes"],
+                skills: ["Reading technical drawings", "Reading assembly documentation", "Using specialized tools", "Professional bicycle service", "Precision mechanics", "Installation of power hydraulics", "High technical culture"],
+                languages: ["English (communicative)", "Spanish (learning)"],
+                hobbies: ["Cycling (enduro, gravel)", "Mechanics"],
+                experience: [
+                    { company: "LIFTRA | Assembly fitter", date: "JULY 2023 – CURRENTLY | SZCZECIN", tasks: ["precise work with documentation and technical drawings", "assembly of mechanical components and power hydraulics", "assembly of BLADEHAWK and LT1200 crane systems"] },
+                    { company: "HÅLOGALAND ELEMENT AS | Carpenter", date: "APRIL 2022 – SEPTEMBER 2022 | RISØYHAMN (NORWAY)", tasks: ["production of prefabricated elements in accordance with specifications", "operation of specialized carpentry machines and tools", "assembly of structural details in compliance with quality standards"] },
+                    { company: "SYNKROS bike shop | Senior mechanic", date: "MARCH 2018 – MARCH 2022 | SZCZECIN", tasks: ["comprehensive mechanical service and diagnostics", "professional technical advice and customer service", "management of shop and service operations"] },
+                    { company: "REIN-CAR-NATION classic car | Junior engine mechanic", date: "OCTOBER 2017 – FEBRUARY 2018 | STOBNO", tasks: ["Comprehensive renovation and restoration of classic Porsche models", "Precise assembly of mechanical parts and components", "Diagnostics and regeneration of unique components"] }
+                ],
+                education: [{ school: "SECONDARY TECHNICAL SCHOOL OF BUILDING", date: "2007 – 2011 | SZCZECIN", desc: "Technologist Finishing Work / General Construction" }]
+            }
+        };
 
-    <div class="experience-item">
-        <div class="exp-head"><span>SYNKROS | Starszy mechanik</span><span>2018 - 2022</span></div>
-        <div class="exp-location">SZCZECIN</div>
-        <ul>
-            <li>Kompleksowy serwis mechaniczny i doradztwo techniczne [cite: 35]</li>
-        </ul>
-    </div>
+        function changeLang(lang) {
+            // Update Labels
+            for (let key in data[lang].labels) {
+                const el = document.getElementById('label-' + key);
+                if (el) el.innerText = data[lang].labels[key];
+            }
 
-    <h2>Portfolio projektów</h2>
-    <div class="portfolio-box">
-        <p>Tu możesz wstawić galerię zdjęć swoich prac (Porsche, turbiny, rowery)</p>
-    </div>
+            document.getElementById('desc-profile').innerText = data[lang].profile;
 
-    <p style="font-size: 0.7rem; color: #999; margin-top: 50px;">[cite: 59]</p>
-</div>
+            // Simple Lists
+            const fillList = (id, items) => {
+                document.getElementById(id).innerHTML = items.map(i => `<li>${i}</li>`).join('');
+            };
+            fillList('list-udt', data[lang].udt);
+            fillList('list-skills', data[lang].skills);
+            fillList('list-languages', data[lang].languages);
+            fillList('list-hobbies', data[lang].hobbies);
 
+            // Experience
+            document.getElementById('experience-container').innerHTML = data[lang].experience.map(exp => `
+                <div class="exp-item">
+                    <div class="exp-title">${exp.company}</div>
+                    <div class="exp-meta">${exp.date}</div>
+                    <ul class="exp-desc">
+                        ${exp.tasks.map(t => `<li>${t}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            // Education
+            document.getElementById('education-container').innerHTML = data[lang].education.map(ed => `
+                <div class="exp-item">
+                    <div class="exp-title">${ed.school}</div>
+                    <div class="exp-meta">${ed.date}</div>
+                    <div class="exp-desc" style="font-size:0.9rem">${ed.desc}</div>
+                </div>
+            `).join('');
+
+            // Buttons State
+            document.querySelectorAll('.btn-lang').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Initialize with PL
+        window.onload = () => changeLang('pl');
+    </script>
 </body>
 </html>
