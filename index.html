@@ -39,7 +39,7 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 4rem 2rem 2rem;
+            padding: 6rem 2rem 2rem;
         }
 
         /* CONTROLS */
@@ -105,7 +105,12 @@
         .theme-btn {
             width: 40px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            font-size: 1.2rem;
+        }
+
+        .theme-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text);
         }
 
         /* MENU */
@@ -573,7 +578,9 @@
             <button class="lang-btn" data-lang="en">EN</button>
             <button class="lang-btn" data-lang="de">DE</button>
         </div>
-        <button class="theme-btn" id="themeBtn">🌙</button>
+        <button class="theme-btn" id="themeBtn">
+            <svg viewBox="0 0 24 24"><path d="M12 18c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6zm0-10c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zM13 3h-2v3h2V3zm0 15h-2v3h2v-3zM6.3 6.3L4.9 4.9 3.5 6.3l1.4 1.4 1.4-1.4zM19.1 19.1l-1.4-1.4-1.4 1.4 1.4 1.4 1.4-1.4zM3 13v-2h3v2H3zm15 0v-2h3v2h-3zM6.3 17.7L4.9 19.1l1.4 1.4 1.4-1.4-1.4-1.4zM19.1 4.9l-1.4 1.4 1.4 1.4 1.4-1.4-1.4-1.4z"/></svg>
+        </button>
     </div>
 
     <!-- MENU OVERLAY -->
@@ -627,7 +634,7 @@
                     <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     Instagram
                 </a>
-                <a href="mailto:miernik.maciek@gmail.com" class="social-link">
+                <a href="/cdn-cgi/l/email-protection#d5b8bcb0a7bbbcbefbb8b4b6bcb0be95b2b8b4bcb9fbb6bab8" class="social-link">
                     <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                     Email
                 </a>
@@ -1110,7 +1117,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Job data with GPS coordinates
         const jobs = {
             liftra: {
@@ -1134,19 +1141,19 @@
                 de: { title: 'Junior-Motormechaniker', company: 'REIN-CAR-NATION', period: 'Oktober 2017 – Februar 2018', location: 'Stobno, Polen', address: 'Stobno', lat: 53.5333, lng: 14.6167, desc: ['Umfassende Renovierung und Restaurierung klassischer Porsche-Modelle', 'Präzise Montage mechanischer Teile und Komponenten', 'Diagnostik und Regeneration einzigartiger Komponenten'], photos: ['reincarnation_1.jpg', 'reincarnation_2.jpg'] }
             },
             hiperglazur: {
-                pl: { title: 'Doradca klienta', company: 'HIPER-GLAZUR', period: 'Kwiecień 2016 – Wrzesień 2017', location: 'Szczecin, Polska', address: 'ul. Świerczewska 8', lat: 53.4285, lng: 14.5528, desc: ['Profesjonalne doradztwo techniczne w zakresie chemii budowlanej', 'Obsługa specjalistycznych urządzeń do mieszania farb i tynków', 'Zarządzanie stanami magazynowymi i logistyką dostaw'], photos: ['hiperglazur_1.jpg', 'hiperglazur_2.jpg'] },
-                en: { title: 'Customer advisor', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017', location: 'Szczecin, Poland', address: 'Świerczewska 8', lat: 53.4285, lng: 14.5528, desc: ['Professional technical consulting in the field of construction chemicals', 'Operation of specialized equipment for mixing paints and plasters', 'Inventory management and delivery logistics'], photos: ['hiperglazur_1.jpg', 'hiperglazur_2.jpg'] },
-                de: { title: 'Kundenberater', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017', location: 'Stettin, Polen', address: 'Świerczewska 8', lat: 53.4285, lng: 14.5528, desc: ['Professionelle technische Beratung im Bereich Bauchemie', 'Bedienung spezialisierter Geräte zum Mischen von Farben und Putzen', 'Bestandsverwaltung und Lieferlogistik'], photos: ['hiperglazur_1.jpg', 'hiperglazur_2.jpg'] }
+                pl: { title: 'Doradca klienta', company: 'HIPER-GLAZUR', period: 'Kwiecień 2016 – Wrzesień 2017', location: 'Szczecin, Polska', address: 'ul. Świerczewska 8', lat: 53.406, lng: 14.544, desc: ['Profesjonalne doradztwo techniczne w zakresie chemii budowlanej', 'Obsługa specjalistycznych urządzeń do mieszania farb i tynków', 'Zarządzanie stanami magazynowymi i logistyką dostaw'], photos: ['hiperglazur_1.jpg', 'hiperglazur_2.jpg'] },
+                en: { title: 'Customer advisor', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017', location: 'Szczecin, Poland', address: 'Świerczewska 8', lat: 53.406, lng: 14.544, desc: ['Professional technical consulting in the field of construction chemicals', 'Operation of specialized equipment for mixing paints and plasters', 'Inventory management and delivery logistics'], photos: ['hiperglazur_1.jpg', 'hiperglazur_2.jpg'] },
+                de: { title: 'Kundenberater', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017', location: 'Stettin, Polen', address: 'Świerczewska 8', lat: 53.406, lng: 14.544, desc: ['Professionelle technische Beratung im Bereich Bauchemie', 'Bedienung spezialisierter Geräte zum Mischen von Farben und Putzen', 'Bestandsverwaltung und Lieferlogistik'], photos: ['hiperglazur_1.jpg', 'hiperglazur_2.jpg'] }
             },
             markona: {
-                pl: { title: 'Zbrojarz - cieśla szalunkowy', company: 'MARKONA AB', period: 'Luty 2014 – Luty 2016', location: 'Enköping, Szwecja', address: 'Enköping', lat: 59.6355, lng: 17.0776, desc: ['Wykonawstwo konstrukcji żelbetowych zgodnie z normami', 'Montaż systemów szalunkowych na podstawie rys. technicznego', 'Obsługa specjalistycznego sprzętu budowlanego'], photos: ['markona_1.jpg', 'markona_2.jpg'] },
-                en: { title: 'Reinforcement worker - formwork carpenter', company: 'MARKONA AB', period: 'February 2014 – February 2016', location: 'Enköping, Sweden', address: 'Enköping', lat: 59.6355, lng: 17.0776, desc: ['Construction of reinforced concrete structures in accordance with standards', 'Assembly of formwork systems based on technical drawings', 'Operation of specialized construction equipment'], photos: ['markona_1.jpg', 'markona_2.jpg'] },
-                de: { title: 'Bewehrungsarbeiter - Schalungszimmermann', company: 'MARKONA AB', period: 'Februar 2014 – Februar 2016', location: 'Enköping, Schweden', address: 'Enköping', lat: 59.6355, lng: 17.0776, desc: ['Bau von Stahlbetonkonstruktionen nach Normen', 'Montage von Schalungssystemen basierend auf technischen Zeichnungen', 'Bedienung spezialisierter Baugeräte'], photos: ['markona_1.jpg', 'markona_2.jpg'] }
+                pl: { title: 'Zbrojarz - cieśla szalunkowy', company: 'MARKONA AB', period: 'Luty 2014 – Luty 2016', location: 'Enköping, Szwecja', address: 'Kvartsgatan, Enköping', lat: 59.636, lng: 17.078, desc: ['Wykonawstwo konstrukcji żelbetowych zgodnie z normami', 'Montaż systemów szalunkowych na podstawie rys. technicznego', 'Obsługa specjalistycznego sprzętu budowlanego'], photos: ['markona_1.jpg', 'markona_2.jpg'] },
+                en: { title: 'Reinforcement worker - formwork carpenter', company: 'MARKONA AB', period: 'February 2014 – February 2016', location: 'Enköping, Sweden', address: 'Kvartsgatan, Enköping', lat: 59.636, lng: 17.078, desc: ['Construction of reinforced concrete structures in accordance with standards', 'Assembly of formwork systems based on technical drawings', 'Operation of specialized construction equipment'], photos: ['markona_1.jpg', 'markona_2.jpg'] },
+                de: { title: 'Bewehrungsarbeiter - Schalungszimmermann', company: 'MARKONA AB', period: 'Februar 2014 – Februar 2016', location: 'Enköping, Schweden', address: 'Kvartsgatan, Enköping', lat: 59.636, lng: 17.078, desc: ['Bau von Stahlbetonkonstruktionen nach Normen', 'Montage von Schalungssystemen basierend auf technischen Zeichnungen', 'Bedienung spezialisierter Baugeräte'], photos: ['markona_1.jpg', 'markona_2.jpg'] }
             },
             kadrzynski: {
-                pl: { title: 'Mechanik', company: 'KADRZYŃSKI', period: 'Styczeń 2012 – Grudzień 2013', location: 'Szczecin, Polska', address: 'ul. Wojska Polskiego 20', lat: 53.4285, lng: 14.5528, desc: ['Serwis i konserwacja rowerów wszystkich typów', 'Montaż oraz przygotowywanie sprzętu do sprzedaży'], photos: ['kadrzynski_1.jpg', 'kadrzynski_2.jpg'] },
-                en: { title: 'Mechanic', company: 'KADRZYŃSKI', period: 'January 2012 – December 2013', location: 'Szczecin, Poland', address: 'Wojska Polskiego 20', lat: 53.4285, lng: 14.5528, desc: ['Service and maintenance of all types of bicycles', 'Assembly and pre-sale preparation of equipment'], photos: ['kadrzynski_1.jpg', 'kadrzynski_2.jpg'] },
-                de: { title: 'Mechaniker', company: 'KADRZYŃSKI', period: 'Januar 2012 – Dezember 2013', location: 'Stettin, Polen', address: 'Wojska Polskiego 20', lat: 53.4285, lng: 14.5528, desc: ['Service und Wartung aller Fahrradtypen', 'Montage und Vorbereitung von Geräten für den Verkauf'], photos: ['kadrzynski_1.jpg', 'kadrzynski_2.jpg'] }
+                pl: { title: 'Mechanik', company: 'KADRZYŃSKI', period: 'Styczeń 2012 – Grudzień 2013', location: 'Szczecin, Polska', address: 'ul. Wojska Polskiego 20', lat: 53.436, lng: 14.558, desc: ['Serwis i konserwacja rowerów wszystkich typów', 'Montaż oraz przygotowywanie sprzętu do sprzedaży'], photos: ['kadrzynski_1.jpg', 'kadrzynski_2.jpg'] },
+                en: { title: 'Mechanic', company: 'KADRZYŃSKI', period: 'January 2012 – December 2013', location: 'Szczecin, Poland', address: 'Wojska Polskiego 20', lat: 53.436, lng: 14.558, desc: ['Service and maintenance of all types of bicycles', 'Assembly and pre-sale preparation of equipment'], photos: ['kadrzynski_1.jpg', 'kadrzynski_2.jpg'] },
+                de: { title: 'Mechaniker', company: 'KADRZYŃSKI', period: 'Januar 2012 – Dezember 2013', location: 'Stettin, Polen', address: 'Wojska Polskiego 20', lat: 53.436, lng: 14.558, desc: ['Service und Wartung aller Fahrradtypen', 'Montage und Vorbereitung von Geräten für den Verkauf'], photos: ['kadrzynski_1.jpg', 'kadrzynski_2.jpg'] }
             }
         };
 
@@ -1200,14 +1207,12 @@
         // Theme toggle
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
-        themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
         themeBtn.onclick = () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            themeBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
         };
 
         // Language switcher
@@ -1307,10 +1312,4 @@
                 else closeModal();
             }
             if (lightbox.classList.contains('active')) {
-                if (e.key === 'ArrowLeft') showPrev();
-                if (e.key === 'ArrowRight') showNext();
-            }
-        };
-    </script>
-</body>
-</html>
+           
