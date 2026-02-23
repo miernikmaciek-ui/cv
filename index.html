@@ -90,7 +90,7 @@
             text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: background 0.2s;
         }
         .cv-link:hover:not(.disabled) { background: #3461b0; }
-        .cv-link.disabled { background: var(--muted); opacity: 0.5; cursor: not-allowed; }
+        .cv-link.disabled { background: var(--muted); opacity: 0.5; cursor: not-allowed; pointer-events: none; }
         .social-links { display: flex; flex-direction: column; gap: 0.8rem; }
         .social-link {
             display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 0;
@@ -218,6 +218,17 @@
         .lightbox-prev { left: -60px; }
         .lightbox-next { right: -60px; }
         #workmap { width: 100%; height: 500px; border: 1px solid var(--border); }
+        /* Scroll to top button */
+        #scrollTop {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
+            width: 44px; height: 44px; background: var(--accent); color: white;
+            border: none; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, background 0.2s;
+        }
+        #scrollTop:hover { background: #3461b0; }
+        #scrollTop.visible { opacity: 1; visibility: visible; }
+        #scrollTop svg { width: 20px; height: 20px; fill: white; }
         .hidden { display: none; }
         @media (max-width: 768px) {
             .container { padding: 7rem 1rem 2rem; }
@@ -227,6 +238,7 @@
             .gallery-grid { grid-template-columns: 1fr; }
             .lightbox-prev { left: 10px; }
             .lightbox-next { right: 10px; }
+            #scrollTop { bottom: 1rem; right: 1rem; }
         }
     </style>
 </head>
@@ -269,12 +281,11 @@
         <div class="menu-section">
             <div class="menu-title">CV</div>
             <div class="cv-links">
-                <!-- ZMIANA 3: Google Docs Viewer — otwiera PDF w nowej karcie na mobile zamiast pobierać -->
-                <a href="https://docs.google.com/viewer?url=https://miernikmaciek-ui.github.io/cv/CV_Maciej_Miernik_PL.pdf" class="cv-link" target="_blank" rel="noopener">
+                <a href="CV_Maciej_Miernik_PL.pdf" class="cv-link" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
                     CV [PL]
                 </a>
-                <a href="https://docs.google.com/viewer?url=https://miernikmaciek-ui.github.io/cv/CV_Maciej_Miernik_EN.pdf" class="cv-link" target="_blank" rel="noopener">
+                <a href="CV_Maciej_Miernik_EN.pdf" class="cv-link" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
                     CV [EN]
                 </a>
@@ -310,6 +321,7 @@
             </div>
         </div>
     </nav>
+
     <!-- POLISH CONTENT -->
     <div class="content" data-lang="pl">
         <div class="container">
@@ -443,12 +455,12 @@
                     </ul>
                 </div>
             </section>
-            <!-- ZMIANA 1: usunięty nagłówek h2, sama mapa zostaje -->
             <section class="section" id="map">
                 <div id="workmap"></div>
             </section>
         </div>
     </div>
+
     <!-- ENGLISH CONTENT -->
     <div class="content hidden" data-lang="en">
         <div class="container">
@@ -582,12 +594,12 @@
                     </ul>
                 </div>
             </section>
-            <!-- ZMIANA 1: usunięty nagłówek h2, ta sama mapa (ruch do PL sekcji, tutaj pusty div dla scrollu) -->
             <section class="section">
-                <div style="width:100%;height:500px;border:1px solid var(--border)" id="workmap-en"></div>
+                <div id="workmap-en" style="width:100%;height:500px;border:1px solid var(--border)"></div>
             </section>
         </div>
     </div>
+
     <!-- GERMAN CONTENT -->
     <div class="content hidden" data-lang="de">
         <div class="container">
@@ -721,12 +733,12 @@
                     </ul>
                 </div>
             </section>
-            <!-- ZMIANA 1: usunięty nagłówek h2 -->
             <section class="section">
-                <div style="width:100%;height:500px;border:1px solid var(--border)" id="workmap-de"></div>
+                <div id="workmap-de" style="width:100%;height:500px;border:1px solid var(--border)"></div>
             </section>
         </div>
     </div>
+
     <!-- MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
@@ -736,6 +748,7 @@
             <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
+
     <!-- LIGHTBOX -->
     <div class="lightbox" id="lightbox">
         <div class="lightbox-content">
@@ -745,363 +758,351 @@
             <button class="lightbox-nav lightbox-next" id="nextBtn">›</button>
         </div>
     </div>
+
+    <!-- SCROLL TO TOP -->
+    <button id="scrollTop" aria-label="Scroll to top">
+        <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </button>
+
     <script>
-const jobs = {
-    liftra: {
-        pl: {title: 'Monter', company: 'LIFTRA', period: 'Lipiec 2023 – Obecnie',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1840.4475913998513!2d14.5862710723047!3d53.45828451793121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0bd49aa1673d%3A0x707788d4ac5f2223!2sLiftra%20Sp.%20z%20o.o.!5e1!3m2!1spl!2spl!4v1771163931573!5m2!1spl!2spl',
-            desc: ['Precyzyjna praca z dokumentacją i rysunkiem technicznym', 'Montaż podzespołów mechanicznych i hydrauliki siłowej', 'Montaż systemów dźwigowych LT1200 oraz BLADEHAWK'],
-            photos: ['./liftra_1.jpg', './liftra_2.jpg']
+    // ── DATA ─────────────────────────────────────────────────────────────────
+    const jobs = {
+        liftra: {
+            pl: {title: 'Monter', company: 'LIFTRA', period: 'Lipiec 2023 – Obecnie',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1840.4475913998513!2d14.5862710723047!3d53.45828451793121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0bd49aa1673d%3A0x707788d4ac5f2223!2sLiftra%20Sp.%20z%20o.o.!5e1!3m2!1spl!2spl!4v1771163931573!5m2!1spl!2spl',
+                desc: ['Precyzyjna praca z dokumentacją i rysunkiem technicznym', 'Montaż podzespołów mechanicznych i hydrauliki siłowej', 'Montaż systemów dźwigowych LT1200 oraz BLADEHAWK'],
+                photos: ['./liftra_1.jpg', './liftra_2.jpg']},
+            en: {title: 'Assembly fitter', company: 'LIFTRA', period: 'July 2023 – Currently',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1840.4475913998513!2d14.5862710723047!3d53.45828451793121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0bd49aa1673d%3A0x707788d4ac5f2223!2sLiftra%20Sp.%20z%20o.o.!5e1!3m2!1sen!2spl!4v1771163931573!5m2!1sen!2spl',
+                desc: ['Precise work with documentation and technical drawings', 'Assembly of mechanical components and power hydraulics', 'Assembly of BLADEHAWK and LT1200 crane systems'],
+                photos: ['./liftra_1.jpg', './liftra_2.jpg']},
+            de: {title: 'Montagemonteur', company: 'LIFTRA', period: 'Juli 2023 – Derzeit',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1840.4475913998513!2d14.5862710723047!3d53.45828451793121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0bd49aa1673d%3A0x707788d4ac5f2223!2sLiftra%20Sp.%20z%20o.o.!5e1!3m2!1sde!2spl!4v1771163931573!5m2!1sde!2spl',
+                desc: ['Präzise Arbeit mit Dokumentation und technischen Zeichnungen', 'Montage mechanischer Komponenten und Leistungshydraulik', 'Montage von BLADEHAWK- und LT1200-Krananlagen'],
+                photos: ['./liftra_1.jpg', './liftra_2.jpg']}
         },
-        en: {title: 'Assembly fitter', company: 'LIFTRA', period: 'July 2023 – Currently',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1840.4475913998513!2d14.5862710723047!3d53.45828451793121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0bd49aa1673d%3A0x707788d4ac5f2223!2sLiftra%20Sp.%20z%20o.o.!5e1!3m2!1sen!2spl!4v1771163931573!5m2!1sen!2spl',
-            desc: ['Precise work with documentation and technical drawings', 'Assembly of mechanical components and power hydraulics', 'Assembly of BLADEHAWK and LT1200 crane systems'],
-            photos: ['./liftra_1.jpg', './liftra_2.jpg']
+        halogaland: {
+            pl: {title: 'Stolarz', company: 'HÅLOGALAND ELEMENT AS', period: 'Kwiecień 2022 – Wrzesień 2022',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.3535623071023!2d15.654064373145312!3d68.94955881708871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dc5877709f2001%3A0x3bcce851cb72bb26!2sH%C3%A5logaland%20Element%20AS!5e1!3m2!1spl!2spl!4v1771164013678!5m2!1spl!2spl',
+                desc: ['Produkcja prefabrykowanych elementów zgodnie ze specyfikacją', 'Obsługa specjalistycznych maszyn i narzędzi stolarskich', 'Montaż detali konstrukcyjnych z zachowaniem norm jakościowych'],
+                photos: ['./halogaland_1.jpg', './halogaland_2.jpg']},
+            en: {title: 'Carpenter', company: 'HÅLOGALAND ELEMENT AS', period: 'April 2022 – September 2022',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.3535623071023!2d15.654064373145312!3d68.94955881708871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dc5877709f2001%3A0x3bcce851cb72bb26!2sH%C3%A5logaland%20Element%20AS!5e1!3m2!1sen!2spl!4v1771164013678!5m2!1sen!2spl',
+                desc: ['Production of prefabricated elements in accordance with specifications', 'Operation of specialized carpentry machines and tools', 'Assembly of structural details in compliance with quality standards'],
+                photos: ['./halogaland_1.jpg', './halogaland_2.jpg']},
+            de: {title: 'Zimmermann', company: 'HÅLOGALAND ELEMENT AS', period: 'April 2022 – September 2022',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.3535623071023!2d15.654064373145312!3d68.94955881708871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dc5877709f2001%3A0x3bcce851cb72bb26!2sH%C3%A5logaland%20Element%20AS!5e1!3m2!1sde!2spl!4v1771164013678!5m2!1sde!2spl',
+                desc: ['Herstellung vorgefertigter Elemente nach Spezifikation', 'Bedienung spezialisierter Tischlereimaschinen und -werkzeuge', 'Montage struktureller Details unter Einhaltung von Qualitätsstandards'],
+                photos: ['./halogaland_1.jpg', './halogaland_2.jpg']}
         },
-        de: {title: 'Montagemonteur', company: 'LIFTRA', period: 'Juli 2023 – Derzeit',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1840.4475913998513!2d14.5862710723047!3d53.45828451793121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0bd49aa1673d%3A0x707788d4ac5f2223!2sLiftra%20Sp.%20z%20o.o.!5e1!3m2!1sde!2spl!4v1771163931573!5m2!1sde!2spl',
-            desc: ['Präzise Arbeit mit Dokumentation und technischen Zeichnungen', 'Montage mechanischer Komponenten und Leistungshydraulik', 'Montage von BLADEHAWK- und LT1200-Krananlagen'],
-            photos: ['./liftra_1.jpg', './liftra_2.jpg']
-        }
-    },
-    halogaland: {
-        pl: {title: 'Stolarz', company: 'HÅLOGALAND ELEMENT AS', period: 'Kwiecień 2022 – Wrzesień 2022',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.3535623071023!2d15.654064373145312!3d68.94955881708871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dc5877709f2001%3A0x3bcce851cb72bb26!2sH%C3%A5logaland%20Element%20AS!5e1!3m2!1spl!2spl!4v1771164013678!5m2!1spl!2spl',
-            desc: ['Produkcja prefabrykowanych elementów zgodnie ze specyfikacją', 'Obsługa specjalistycznych maszyn i narzędzi stolarskich', 'Montaż detali konstrukcyjnych z zachowaniem norm jakościowych'],
-            photos: ['./halogaland_1.jpg', './halogaland_2.jpg']
+        synkros: {
+            pl: {title: 'Starszy mechanik', company: 'SYNKROS', period: 'Marzec 2018 – Marzec 2022',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.4637997711188!2d14.530718975729943!3d53.43483586810003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0939aaa93969%3A0x74f29335a55a37a!2sSynkros!5e1!3m2!1spl!2spl!4v1771164048713!5m2!1spl!2spl',
+                desc: ['Kompleksowy serwis mechaniczny oraz diagnostyka', 'Profesjonalne doradztwo techniczne i obsługa klienta', 'Zarządzanie bieżącą działalnością sklepu i serwisu'],
+                photos: ['./synkros_1.jpg', './synkros_2.jpg']},
+            en: {title: 'Senior mechanic', company: 'SYNKROS', period: 'March 2018 – March 2022',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.4637997711188!2d14.530718975729943!3d53.43483586810003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0939aaa93969%3A0x74f29335a55a37a!2sSynkros!5e1!3m2!1sen!2spl!4v1771164048713!5m2!1sen!2spl',
+                desc: ['Comprehensive mechanical service and diagnostics', 'Professional technical advice and customer service', 'Management of shop and service operations'],
+                photos: ['./synkros_1.jpg', './synkros_2.jpg']},
+            de: {title: 'Senior-Mechaniker', company: 'SYNKROS', period: 'März 2018 – März 2022',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.4637997711188!2d14.530718975729943!3d53.43483586810003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0939aaa93969%3A0x74f29335a55a37a!2sSynkros!5e1!3m2!1sde!2spl!4v1771164048713!5m2!1sde!2spl',
+                desc: ['Umfassender mechanischer Service und Diagnostik', 'Professionelle technische Beratung und Kundenservice', 'Verwaltung des Geschäfts- und Servicebetriebs'],
+                photos: ['./synkros_1.jpg', './synkros_2.jpg']}
         },
-        en: {title: 'Carpenter', company: 'HÅLOGALAND ELEMENT AS', period: 'April 2022 – September 2022',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.3535623071023!2d15.654064373145312!3d68.94955881708871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dc5877709f2001%3A0x3bcce851cb72bb26!2sH%C3%A5logaland%20Element%20AS!5e1!3m2!1sen!2spl!4v1771164013678!5m2!1sen!2spl',
-            desc: ['Production of prefabricated elements in accordance with specifications', 'Operation of specialized carpentry machines and tools', 'Assembly of structural details in compliance with quality standards'],
-            photos: ['./halogaland_1.jpg', './halogaland_2.jpg']
+        reincarnation: {
+            pl: {title: 'Mechanik', company: 'REIN-CAR-NATION', period: 'Październik 2017 – Luty 2018',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1842.3354606126536!2d14.426069083415818!3d53.41471692897199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0edf3ab79ef1%3A0x3dcca684f13df971!2sReincarnation!5e1!3m2!1spl!2spl!4v1771164088542!5m2!1spl!2spl',
+                desc: ['Kompleksowa renowacja i odbudowa klasycznych modeli Porsche', 'Precyzyjny montaż elementów oraz podzespołów mechanicznych', 'Diagnostyka i regeneracja unikatowych komponentów'],
+                photos: ['./reincarnation_1.jpg', './reincarnation_2.jpg']},
+            en: {title: 'Junior engine mechanic', company: 'REIN-CAR-NATION', period: 'October 2017 – February 2018',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1842.3354606126536!2d14.426069083415818!3d53.41471692897199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0edf3ab79ef1%3A0x3dcca684f13df971!2sReincarnation!5e1!3m2!1sen!2spl!4v1771164088542!5m2!1sen!2spl',
+                desc: ['Comprehensive renovation and restoration of classic Porsche models', 'Precise assembly of mechanical parts and components', 'Diagnostics and regeneration of unique components'],
+                photos: ['./reincarnation_1.jpg', './reincarnation_2.jpg']},
+            de: {title: 'Junior-Motormechaniker', company: 'REIN-CAR-NATION', period: 'Oktober 2017 – Februar 2018',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1842.3354606126536!2d14.426069083415818!3d53.41471692897199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0edf3ab79ef1%3A0x3dcca684f13df971!2sReincarnation!5e1!3m2!1sde!2spl!4v1771164088542!5m2!1sde!2spl',
+                desc: ['Umfassende Renovierung und Restaurierung klassischer Porsche-Modelle', 'Präzise Montage mechanischer Teile und Komponenten', 'Diagnostik und Regeneration einzigartiger Komponenten'],
+                photos: ['./reincarnation_1.jpg', './reincarnation_2.jpg']}
         },
-        de: {title: 'Zimmermann', company: 'HÅLOGALAND ELEMENT AS', period: 'April 2022 – September 2022',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.3535623071023!2d15.654064373145312!3d68.94955881708871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x45dc5877709f2001%3A0x3bcce851cb72bb26!2sH%C3%A5logaland%20Element%20AS!5e1!3m2!1sde!2spl!4v1771164013678!5m2!1sde!2spl',
-            desc: ['Herstellung vorgefertigter Elemente nach Spezifikation', 'Bedienung spezialisierter Tischlereimaschinen und -werkzeuge', 'Montage struktureller Details unter Einhaltung von Qualitätsstandards'],
-            photos: ['./halogaland_1.jpg', './halogaland_2.jpg']
-        }
-    },
-    synkros: {
-        pl: {title: 'Starszy mechanik', company: 'SYNKROS', period: 'Marzec 2018 – Marzec 2022',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.4637997711188!2d14.530718975729943!3d53.43483586810003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0939aaa93969%3A0x74f29335a55a37a!2sSynkros!5e1!3m2!1spl!2spl!4v1771164048713!5m2!1spl!2spl',
-            desc: ['Kompleksowy serwis mechaniczny oraz diagnostyka', 'Profesjonalne doradztwo techniczne i obsługa klienta', 'Zarządzanie bieżącą działalnością sklepu i serwisu'],
-            photos: ['./synkros_1.jpg', './synkros_2.jpg']
+        hiperglazur: {
+            pl: {title: 'Doradca klienta', company: 'HIPER-GLAZUR', period: 'Kwiecień 2016 – Wrzesień 2017',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.8911606285665!2d14.50880906436754!3d53.42497254082794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa092c967e47f1%3A0xe2fa82662f272d5f!2sHiper!5e1!3m2!1spl!2spl!4v1771164154842!5m2!1spl!2spl',
+                desc: ['Profesjonalne doradztwo techniczne w zakresie chemii budowlanej', 'Obsługa specjalistycznych urządzeń do mieszania farb i tynków', 'Zarządzanie stanami magazynowymi i logistyką dostaw'],
+                photos: ['./hiperglazur_1.jpg', './hiperglazur_2.jpg']},
+            en: {title: 'Customer advisor', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.8911606285665!2d14.50880906436754!3d53.42497254082794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa092c967e47f1%3A0xe2fa82662f272d5f!2sHiper!5e1!3m2!1sen!2spl!4v1771164154842!5m2!1sen!2spl',
+                desc: ['Professional technical consulting in the field of construction chemicals', 'Operation of specialized equipment for mixing paints and plasters', 'Inventory management and delivery logistics'],
+                photos: ['./hiperglazur_1.jpg', './hiperglazur_2.jpg']},
+            de: {title: 'Kundenberater', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.8911606285665!2d14.50880906436754!3d53.42497254082794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa092c967e47f1%3A0xe2fa82662f272d5f!2sHiper!5e1!3m2!1sde!2spl!4v1771164154842!5m2!1sde!2spl',
+                desc: ['Professionelle technische Beratung im Bereich Bauchemie', 'Bedienung spezialisierter Geräte zum Mischen von Farben und Putzen', 'Bestandsverwaltung und Lieferlogistik'],
+                photos: ['./hiperglazur_1.jpg', './hiperglazur_2.jpg']}
         },
-        en: {title: 'Senior mechanic', company: 'SYNKROS', period: 'March 2018 – March 2022',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.4637997711188!2d14.530718975729943!3d53.43483586810003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0939aaa93969%3A0x74f29335a55a37a!2sSynkros!5e1!3m2!1sen!2spl!4v1771164048713!5m2!1sen!2spl',
-            desc: ['Comprehensive mechanical service and diagnostics', 'Professional technical advice and customer service', 'Management of shop and service operations'],
-            photos: ['./synkros_1.jpg', './synkros_2.jpg']
+        markona: {
+            pl: {title: 'Zbrojarz - cieśla szalunkowy', company: 'MARKONA AB', period: 'Luty 2014 – Luty 2016',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d638.0933761128283!2d17.12256748805334!3d59.64436739325963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e51d9229710a5%3A0xc9b7d5e9ded0f1ba!2sMarkona!5e1!3m2!1spl!2spl!4v1771164231573!5m2!1spl!2spl',
+                desc: ['Wykonawstwo konstrukcji żelbetowych zgodnie z normami', 'Montaż systemów szalunkowych na podstawie rys. technicznego', 'Obsługa specjalistycznego sprzętu budowlanego'],
+                photos: ['./markona_1.jpg', './markona_2.jpg']},
+            en: {title: 'Reinforcement worker - formwork carpenter', company: 'MARKONA AB', period: 'February 2014 – February 2016',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d638.0933761128283!2d17.12256748805334!3d59.64436739325963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e51d9229710a5%3A0xc9b7d5e9ded0f1ba!2sMarkona!5e1!3m2!1sen!2spl!4v1771164231573!5m2!1sen!2spl',
+                desc: ['Construction of reinforced concrete structures in accordance with standards', 'Assembly of formwork systems based on technical drawings', 'Operation of specialized construction equipment'],
+                photos: ['./markona_1.jpg', './markona_2.jpg']},
+            de: {title: 'Bewehrungsarbeiter - Schalungszimmermann', company: 'MARKONA AB', period: 'Februar 2014 – Februar 2016',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d638.0933761128283!2d17.12256748805334!3d59.64436739325963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e51d9229710a5%3A0xc9b7d5e9ded0f1ba!2sMarkona!5e1!3m2!1sde!2spl!4v1771164231573!5m2!1sde!2spl',
+                desc: ['Bau von Stahlbetonkonstruktionen nach Normen', 'Montage von Schalungssystemen basierend auf technischen Zeichnungen', 'Bedienung spezialisierter Baugeräte'],
+                photos: ['./markona_1.jpg', './markona_2.jpg']}
         },
-        de: {title: 'Senior-Mechaniker', company: 'SYNKROS', period: 'März 2018 – März 2022',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.4637997711188!2d14.530718975729943!3d53.43483586810003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0939aaa93969%3A0x74f29335a55a37a!2sSynkros!5e1!3m2!1sde!2spl!4v1771164048713!5m2!1sde!2spl',
-            desc: ['Umfassender mechanischer Service und Diagnostik', 'Professionelle technische Beratung und Kundenservice', 'Verwaltung des Geschäfts- und Servicebetriebs'],
-            photos: ['./synkros_1.jpg', './synkros_2.jpg']
-        }
-    },
-    reincarnation: {
-        pl: {title: 'Mechanik', company: 'REIN-CAR-NATION', period: 'Październik 2017 – Luty 2018',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1842.3354606126536!2d14.426069083415818!3d53.41471692897199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0edf3ab79ef1%3A0x3dcca684f13df971!2sReincarnation!5e1!3m2!1spl!2spl!4v1771164088542!5m2!1spl!2spl',
-            desc: ['Kompleksowa renowacja i odbudowa klasycznych modeli Porsche', 'Precyzyjny montaż elementów oraz podzespołów mechanicznych', 'Diagnostyka i regeneracja unikatowych komponentów'],
-            photos: ['./reincarnation_1.jpg', './reincarnation_2.jpg']
-        },
-        en: {title: 'Junior engine mechanic', company: 'REIN-CAR-NATION', period: 'October 2017 – February 2018',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1842.3354606126536!2d14.426069083415818!3d53.41471692897199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0edf3ab79ef1%3A0x3dcca684f13df971!2sReincarnation!5e1!3m2!1sen!2spl!4v1771164088542!5m2!1sen!2spl',
-            desc: ['Comprehensive renovation and restoration of classic Porsche models', 'Precise assembly of mechanical parts and components', 'Diagnostics and regeneration of unique components'],
-            photos: ['./reincarnation_1.jpg', './reincarnation_2.jpg']
-        },
-        de: {title: 'Junior-Motormechaniker', company: 'REIN-CAR-NATION', period: 'Oktober 2017 – Februar 2018',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1842.3354606126536!2d14.426069083415818!3d53.41471692897199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa0edf3ab79ef1%3A0x3dcca684f13df971!2sReincarnation!5e1!3m2!1sde!2spl!4v1771164088542!5m2!1sde!2spl',
-            desc: ['Umfassende Renovierung und Restaurierung klassischer Porsche-Modelle', 'Präzise Montage mechanischer Teile und Komponenten', 'Diagnostik und Regeneration einzigartiger Komponenten'],
-            photos: ['./reincarnation_1.jpg', './reincarnation_2.jpg']
-        }
-    },
-    hiperglazur: {
-        pl: {title: 'Doradca klienta', company: 'HIPER-GLAZUR', period: 'Kwiecień 2016 – Wrzesień 2017',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.8911606285665!2d14.50880906436754!3d53.42497254082794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa092c967e47f1%3A0xe2fa82662f272d5f!2sHiper!5e1!3m2!1spl!2spl!4v1771164154842!5m2!1spl!2spl',
-            desc: ['Profesjonalne doradztwo techniczne w zakresie chemii budowlanej', 'Obsługa specjalistycznych urządzeń do mieszania farb i tynków', 'Zarządzanie stanami magazynowymi i logistyką dostaw'],
-            photos: ['./hiperglazur_1.jpg', './hiperglazur_2.jpg']
-        },
-        en: {title: 'Customer advisor', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.8911606285665!2d14.50880906436754!3d53.42497254082794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa092c967e47f1%3A0xe2fa82662f272d5f!2sHiper!5e1!3m2!1sen!2spl!4v1771164154842!5m2!1sen!2spl',
-            desc: ['Professional technical consulting in the field of construction chemicals', 'Operation of specialized equipment for mixing paints and plasters', 'Inventory management and delivery logistics'],
-            photos: ['./hiperglazur_1.jpg', './hiperglazur_2.jpg']
-        },
-        de: {title: 'Kundenberater', company: 'HIPER-GLAZUR', period: 'April 2016 – September 2017',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.8911606285665!2d14.50880906436754!3d53.42497254082794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa092c967e47f1%3A0xe2fa82662f272d5f!2sHiper!5e1!3m2!1sde!2spl!4v1771164154842!5m2!1sde!2spl',
-            desc: ['Professionelle technische Beratung im Bereich Bauchemie', 'Bedienung spezialisierter Geräte zum Mischen von Farben und Putzen', 'Bestandsverwaltung und Lieferlogistik'],
-            photos: ['./hiperglazur_1.jpg', './hiperglazur_2.jpg']
-        }
-    },
-    markona: {
-        pl: {title: 'Zbrojarz - cieśla szalunkowy', company: 'MARKONA AB', period: 'Luty 2014 – Luty 2016',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d638.0933761128283!2d17.12256748805334!3d59.64436739325963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e51d9229710a5%3A0xc9b7d5e9ded0f1ba!2sMarkona!5e1!3m2!1spl!2spl!4v1771164231573!5m2!1spl!2spl',
-            desc: ['Wykonawstwo konstrukcji żelbetowych zgodnie z normami', 'Montaż systemów szalunkowych na podstawie rys. technicznego', 'Obsługa specjalistycznego sprzętu budowlanego'],
-            photos: ['./markona_1.jpg', './markona_2.jpg']
-        },
-        en: {title: 'Reinforcement worker - formwork carpenter', company: 'MARKONA AB', period: 'February 2014 – February 2016',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d638.0933761128283!2d17.12256748805334!3d59.64436739325963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e51d9229710a5%3A0xc9b7d5e9ded0f1ba!2sMarkona!5e1!3m2!1sen!2spl!4v1771164231573!5m2!1sen!2spl',
-            desc: ['Construction of reinforced concrete structures in accordance with standards', 'Assembly of formwork systems based on technical drawings', 'Operation of specialized construction equipment'],
-            photos: ['./markona_1.jpg', './markona_2.jpg']
-        },
-        de: {title: 'Bewehrungsarbeiter - Schalungszimmermann', company: 'MARKONA AB', period: 'Februar 2014 – Februar 2016',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d638.0933761128283!2d17.12256748805334!3d59.64436739325963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465e51d9229710a5%3A0xc9b7d5e9ded0f1ba!2sMarkona!5e1!3m2!1sde!2spl!4v1771164231573!5m2!1sde!2spl',
-            desc: ['Bau von Stahlbetonkonstruktionen nach Normen', 'Montage von Schalungssystemen basierend auf technischen Zeichnungen', 'Bedienung spezialisierter Baugeräte'],
-            photos: ['./markona_1.jpg', './markona_2.jpg']
-        }
-    },
-    kadrzynski: {
-        pl: {title: 'Mechanik', company: 'KADRZYŃSKI', period: 'Styczeń 2012 – Grudzień 2013',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d149.2367063095855!2d14.533951389112437!3d53.44009952884281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spl!2spl!4v1771164460415!5m2!1spl!2spl',
-            desc: ['Serwis i konserwacja rowerów wszystkich typów', 'Montaż oraz przygotowywanie sprzętu do sprzedaży'],
-            photos: ['./kadrzynski_1.jpg', './kadrzynski_2.jpg']
-        },
-        en: {title: 'Mechanic', company: 'KADRZYŃSKI', period: 'January 2012 – December 2013',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d149.2367063095855!2d14.533951389112437!3d53.44009952884281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2spl!4v1771164460415!5m2!1sen!2spl',
-            desc: ['Service and maintenance of all types of bicycles', 'Assembly and pre-sale preparation of equipment'],
-            photos: ['./kadrzynski_1.jpg', './kadrzynski_2.jpg']
-        },
-        de: {title: 'Mechaniker', company: 'KADRZYŃSKI', period: 'Januar 2012 – Dezember 2013',
-            iframe: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d149.2367063095855!2d14.533951389112437!3d53.44009952884281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sde!2spl!4v1771164460415!5m2!1sde!2spl',
-            desc: ['Service und Wartung aller Fahrradtypen', 'Montage und Vorbereitung von Geräten für den Verkauf'],
-            photos: ['./kadrzynski_1.jpg', './kadrzynski_2.jpg']
-        }
-    }
-};
-
-const allPhotos = [
-    './liftra_1.jpg', './liftra_2.jpg',
-    './halogaland_1.jpg', './halogaland_2.jpg',
-    './synkros_1.jpg', './synkros_2.jpg',
-    './reincarnation_1.jpg', './reincarnation_2.jpg',
-    './hiperglazur_1.jpg', './hiperglazur_2.jpg',
-    './markona_1.jpg', './markona_2.jpg',
-    './kadrzynski_1.jpg', './kadrzynski_2.jpg'
-];
-
-let lang = 'pl';
-let photos = [];
-let photoIndex = 0;
-
-const hamburger = document.getElementById('hamburger');
-const sideMenu = document.getElementById('sideMenu');
-const menuOverlay = document.getElementById('menuOverlay');
-const themeBtn = document.getElementById('themeBtn');
-const modal = document.getElementById('modal');
-const modalBody = document.getElementById('modalBody');
-const closeBtn = document.getElementById('closeBtn');
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxClose = document.getElementById('lightboxClose');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const galleryLink = document.getElementById('galleryLink');
-
-hamburger.onclick = () => {
-    hamburger.classList.toggle('active');
-    sideMenu.classList.toggle('active');
-    menuOverlay.classList.toggle('active');
-};
-
-menuOverlay.onclick = () => {
-    hamburger.classList.remove('active');
-    sideMenu.classList.remove('active');
-    menuOverlay.classList.remove('active');
-};
-
-document.querySelectorAll('.menu-link').forEach(link => {
-    link.onclick = e => {
-        e.preventDefault();
-        const target = link.getAttribute('href');
-        if (target && target.startsWith('#')) {
-            hamburger.classList.remove('active');
-            sideMenu.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            setTimeout(() => document.querySelector(target).scrollIntoView({ behavior: 'smooth' }), 300);
+        kadrzynski: {
+            pl: {title: 'Mechanik', company: 'KADRZYŃSKI', period: 'Styczeń 2012 – Grudzień 2013',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d149.2367063095855!2d14.533951389112437!3d53.44009952884281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spl!2spl!4v1771164460415!5m2!1spl!2spl',
+                desc: ['Serwis i konserwacja rowerów wszystkich typów', 'Montaż oraz przygotowywanie sprzętu do sprzedaży'],
+                photos: ['./kadrzynski_1.jpg', './kadrzynski_2.jpg']},
+            en: {title: 'Mechanic', company: 'KADRZYŃSKI', period: 'January 2012 – December 2013',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d149.2367063095855!2d14.533951389112437!3d53.44009952884281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2spl!4v1771164460415!5m2!1sen!2spl',
+                desc: ['Service and maintenance of all types of bicycles', 'Assembly and pre-sale preparation of equipment'],
+                photos: ['./kadrzynski_1.jpg', './kadrzynski_2.jpg']},
+            de: {title: 'Mechaniker', company: 'KADRZYŃSKI', period: 'Januar 2012 – Dezember 2013',
+                iframe: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d149.2367063095855!2d14.533951389112437!3d53.44009952884281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sde!2spl!4v1771164460415!5m2!1sde!2spl',
+                desc: ['Service und Wartung aller Fahrradtypen', 'Montage und Vorbereitung von Geräten für den Verkauf'],
+                photos: ['./kadrzynski_1.jpg', './kadrzynski_2.jpg']}
         }
     };
-});
 
-const savedTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
+    const allPhotos = [
+        './liftra_1.jpg','./liftra_2.jpg',
+        './halogaland_1.jpg','./halogaland_2.jpg',
+        './synkros_1.jpg','./synkros_2.jpg',
+        './reincarnation_1.jpg','./reincarnation_2.jpg',
+        './hiperglazur_1.jpg','./hiperglazur_2.jpg',
+        './markona_1.jpg','./markona_2.jpg',
+        './kadrzynski_1.jpg','./kadrzynski_2.jpg'
+    ];
 
-themeBtn.onclick = () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-};
+    let lang = 'pl';
+    let photos = [];
+    let photoIndex = 0;
 
-document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.onclick = () => {
-        lang = btn.dataset.lang;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.content').forEach(c => c.classList.toggle('hidden', c.dataset.lang !== lang));
-        document.querySelectorAll('[data-pl]').forEach(el => {
-            if (el.tagName === 'SPAN' || el.tagName === 'DIV' && !el.querySelector('svg')) {
-                el.textContent = el.getAttribute('data-' + lang);
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    const hamburger    = document.getElementById('hamburger');
+    const sideMenu     = document.getElementById('sideMenu');
+    const menuOverlay  = document.getElementById('menuOverlay');
+    const themeBtn     = document.getElementById('themeBtn');
+    const modal        = document.getElementById('modal');
+    const modalBody    = document.getElementById('modalBody');
+    const closeBtn     = document.getElementById('closeBtn');
+    const lightbox     = document.getElementById('lightbox');
+    const lightboxImg  = document.getElementById('lightboxImg');
+    const lightboxClose= document.getElementById('lightboxClose');
+    const prevBtn      = document.getElementById('prevBtn');
+    const nextBtn      = document.getElementById('nextBtn');
+    const galleryLink  = document.getElementById('galleryLink');
+    const scrollTopBtn = document.getElementById('scrollTop');
+
+    // ── MENU ──────────────────────────────────────────────────────────────────
+    function closeMenu() {
+        hamburger.classList.remove('active');
+        sideMenu.classList.remove('active');
+        menuOverlay.classList.remove('active');
+    }
+
+    hamburger.onclick = () => {
+        hamburger.classList.toggle('active');
+        sideMenu.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+    };
+    menuOverlay.onclick = closeMenu;
+
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.onclick = e => {
+            e.preventDefault();
+            const target = link.getAttribute('href');
+            if (target && target.startsWith('#')) {
+                closeMenu();
+                setTimeout(() => {
+                    const el = document.querySelector(target);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 300);
             }
+        };
+    });
+
+    // ── THEME ─────────────────────────────────────────────────────────────────
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    themeBtn.onclick = () => {
+        const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
+    // ── LANGUAGE ──────────────────────────────────────────────────────────────
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.onclick = () => {
+            lang = btn.dataset.lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.content').forEach(c => c.classList.toggle('hidden', c.dataset.lang !== lang));
+            document.querySelectorAll('[data-pl]').forEach(el => {
+                const val = el.getAttribute('data-' + lang);
+                if (val) el.textContent = val;
+            });
+            moveMapToActiveLang();
+        };
+    });
+
+    // ── GALLERY ───────────────────────────────────────────────────────────────
+    galleryLink.onclick = () => {
+        closeMenu();
+        photos = allPhotos;
+        modalBody.innerHTML = `
+            <div class="modal-gallery">
+                <div class="gallery-grid">
+                    ${allPhotos.map((p, i) => `
+                        <div class="gallery-thumb" onclick="openLightbox(${i})"
+                             style="background:url('${p}') center/cover no-repeat,var(--card-bg)">
+                            <span style="background:rgba(0,0,0,0.5);color:white;padding:0.5rem;border-radius:4px">
+                                ${lang === 'pl' ? 'Kliknij aby powiększyć' : lang === 'de' ? 'Zum Vergrößern klicken' : 'Click to enlarge'}
+                            </span>
+                        </div>`).join('')}
+                </div>
+            </div>`;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    // ── MODAL (job detail) ────────────────────────────────────────────────────
+    function openModal(jobId) {
+        const job = jobs[jobId][lang];
+        const lbl = {
+            pl: {loc: 'Lokalizacja', resp: 'Zakres obowiązków', gal: 'Galeria zdjęć', zoom: 'Kliknij aby powiększyć'},
+            en: {loc: 'Location',    resp: 'Responsibilities',   gal: 'Photo Gallery', zoom: 'Click to enlarge'},
+            de: {loc: 'Standort',   resp: 'Verantwortlichkeiten',gal: 'Fotogalerie',   zoom: 'Zum Vergrößern klicken'}
+        }[lang];
+
+        photos = job.photos;
+        modalBody.innerHTML = `
+            <div class="modal-title">${job.title}</div>
+            <div class="modal-company">${job.company}</div>
+            <div class="modal-meta">${job.period}</div>
+            <div class="modal-location">
+                <h3>${lbl.loc}</h3>
+                <iframe class="map-preview" src="${job.iframe}" frameborder="0" loading="lazy"></iframe>
+            </div>
+            <div class="modal-description">
+                <h3>${lbl.resp}</h3>
+                <ul>${job.desc.map(d => `<li>${d}</li>`).join('')}</ul>
+            </div>
+            <div class="modal-gallery">
+                <h3>${lbl.gal}</h3>
+                <div class="gallery-grid">
+                    ${job.photos.map((p, i) => `
+                        <div class="gallery-thumb" onclick="openLightbox(${i})"
+                             style="background:url('${p}') center/cover no-repeat,var(--card-bg)">
+                            <span style="background:rgba(0,0,0,0.5);color:white;padding:0.5rem;border-radius:4px">${lbl.zoom}</span>
+                        </div>`).join('')}
+                </div>
+            </div>`;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // ── LIGHTBOX ──────────────────────────────────────────────────────────────
+    function openLightbox(index) {
+        photoIndex = index;
+        lightboxImg.src = photos[index];
+        lightbox.classList.add('active');
+    }
+    function closeLightbox() { lightbox.classList.remove('active'); }
+    function showPrev() { photoIndex = (photoIndex - 1 + photos.length) % photos.length; lightboxImg.src = photos[photoIndex]; }
+    function showNext() { photoIndex = (photoIndex + 1) % photos.length; lightboxImg.src = photos[photoIndex]; }
+
+    closeBtn.onclick    = closeModal;
+    modal.onclick       = e => { if (e.target === modal) closeModal(); };
+    lightboxClose.onclick = closeLightbox;
+    lightbox.onclick    = e => { if (e.target === lightbox) closeLightbox(); };
+    prevBtn.onclick     = showPrev;
+    nextBtn.onclick     = showNext;
+
+    document.querySelectorAll('.job').forEach(job => {
+        job.onclick = () => openModal(job.dataset.job);
+    });
+
+    document.onkeydown = e => {
+        if (e.key === 'Escape') {
+            if (lightbox.classList.contains('active')) closeLightbox();
+            else if (modal.classList.contains('active')) closeModal();
+        }
+        if (lightbox.classList.contains('active')) {
+            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === 'ArrowRight') showNext();
+        }
+    };
+
+    // ── SCROLL TO TOP ─────────────────────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    scrollTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // ── LEAFLET MAP ───────────────────────────────────────────────────────────
+    var workMap; // declare in outer scope so moveMapToActiveLang can access it
+
+    window.addEventListener('load', function () {
+        const workLocations = [
+            { lat: 53.458284, lng: 14.586271, name: 'LIFTRA',                place: 'Szczecin, PL' },
+            { lat: 68.949558, lng: 15.654064, name: 'HÅLOGALAND ELEMENT AS', place: 'Risøyhamn, NO' },
+            { lat: 53.434836, lng: 14.530719, name: 'SYNKROS',               place: 'Szczecin, PL' },
+            { lat: 53.414717, lng: 14.426069, name: 'REIN-CAR-NATION',       place: 'Stobno, PL' },
+            { lat: 53.424972, lng: 14.508809, name: 'HIPER-GLAZUR',          place: 'Szczecin, PL' },
+            { lat: 59.644367, lng: 17.122567, name: 'MARKONA AB',            place: 'Enköping, SE' },
+            { lat: 53.440100, lng: 14.533951, name: 'KADRZYŃSKI',            place: 'Szczecin, PL' }
+        ];
+
+        workMap = L.map('workmap', { scrollWheelZoom: false });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(workMap);
+
+        const pinIcon = L.divIcon({
+            className: '',
+            html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="24" height="36">
+                <path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24S24 21 24 12C24 5.4 18.6 0 12 0z"
+                      fill="#4472C4" stroke="white" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="5" fill="white"/>
+            </svg>`,
+            iconSize: [24, 36],
+            iconAnchor: [12, 36],
+            popupAnchor: [0, -36]
         });
-        moveMapToActiveLang();
-    };
-});
 
-galleryLink.onclick = () => {
-    openGallery();
-    hamburger.classList.remove('active');
-    sideMenu.classList.remove('active');
-    menuOverlay.classList.remove('active');
-};
+        workLocations.forEach(loc => {
+            L.marker([loc.lat, loc.lng], { icon: pinIcon })
+             .addTo(workMap)
+             .bindPopup(`<strong style="color:#4472C4">${loc.name}</strong><br>${loc.place}`);
+        });
 
-function openGallery() {
-    modalBody.innerHTML = `
-        <div class="modal-gallery">
-            <div class="gallery-grid">
-                ${allPhotos.map((p, i) => `<div class="gallery-thumb" onclick="openLightbox(${i})" style="background:url('${p}') center/cover;cursor:pointer"><span style="background:rgba(0,0,0,0.5);color:white;padding:0.5rem;border-radius:4px">${lang === 'pl' ? 'Kliknij aby powiększyć' : lang === 'de' ? 'Zum Vergrößern klicken' : 'Click to enlarge'}</span></div>`).join('')}
-            </div>
-        </div>`;
+        const bounds = L.latLngBounds(workLocations.map(l => [l.lat, l.lng]));
+        workMap.fitBounds(bounds, { padding: [40, 40] });
+    });
 
-    photos = allPhotos;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function openModal(jobId) {
-    const job = jobs[jobId][lang];
-    const labels = {
-        pl: { loc: 'Lokalizacja', resp: 'Zakres obowiązków', gal: 'Galeria zdjęć' },
-        en: { loc: 'Location', resp: 'Responsibilities', gal: 'Photo Gallery' },
-        de: { loc: 'Standort', resp: 'Verantwortlichkeiten', gal: 'Fotogalerie' }
-    };
-    const l = labels[lang];
-
-    modalBody.innerHTML = `
-        <div class="modal-title">${job.title}</div>
-        <div class="modal-company">${job.company}</div>
-        <div class="modal-meta">${job.period}</div>
-        <div class="modal-location">
-            <h3>${l.loc}</h3>
-            <iframe class="map-preview" src="${job.iframe}" frameborder="0"></iframe>
-        </div>
-        <div class="modal-description">
-            <h3>${l.resp}</h3>
-            <ul>${job.desc.map(d => `<li>${d}</li>`).join('')}</ul>
-        </div>
-        <div class="modal-gallery">
-            <h3>${l.gal}</h3>
-            <div class="gallery-grid">
-                ${job.photos.map((p, i) => `<div class="gallery-thumb" onclick="openLightbox(${i})" style="background:url('${p}') center/cover;cursor:pointer"><span style="background:rgba(0,0,0,0.5);color:white;padding:0.5rem;border-radius:4px">${lang === 'pl' ? 'Kliknij aby powiększyć' : lang === 'de' ? 'Zum Vergrößern klicken' : 'Click to enlarge'}</span></div>`).join('')}
-            </div>
-        </div>`;
-
-    photos = job.photos;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function openLightbox(index) {
-    photoIndex = index;
-    lightboxImg.src = photos[index];
-    lightbox.classList.add('active');
-}
-
-function closeLightbox() {
-    lightbox.classList.remove('active');
-}
-
-function showPrev() {
-    photoIndex = (photoIndex - 1 + photos.length) % photos.length;
-    lightboxImg.src = photos[photoIndex];
-}
-
-function showNext() {
-    photoIndex = (photoIndex + 1) % photos.length;
-    lightboxImg.src = photos[photoIndex];
-}
-
-closeBtn.onclick = closeModal;
-modal.onclick = e => { if (e.target === modal) closeModal(); };
-lightboxClose.onclick = closeLightbox;
-lightbox.onclick = e => { if (e.target === lightbox) closeLightbox(); };
-prevBtn.onclick = showPrev;
-nextBtn.onclick = showNext;
-
-document.querySelectorAll('.job').forEach(job => {
-    job.onclick = () => openModal(job.dataset.job);
-});
-
-document.onkeydown = e => {
-    if (e.key === 'Escape') {
-        if (lightbox.classList.contains('active')) closeLightbox();
-        else if (modal.classList.contains('active')) closeModal();
+    // Przenosi element mapy do kontenera aktywnego języka
+    function moveMapToActiveLang() {
+        if (!workMap) return;
+        const containerId = lang === 'pl' ? 'workmap' : lang === 'en' ? 'workmap-en' : 'workmap-de';
+        const target = document.getElementById(containerId);
+        const mapEl  = document.getElementById('workmap');
+        if (target && mapEl && target !== mapEl.parentNode) {
+            target.appendChild(mapEl);
+            setTimeout(() => workMap.invalidateSize(), 50);
+        }
     }
-    if (lightbox.classList.contains('active')) {
-        if (e.key === 'ArrowLeft') showPrev();
-        if (e.key === 'ArrowRight') showNext();
-    }
-};
-
-// ── ZMIANA 2: Leaflet – działająca mapa z 7 pinezkami ──
-window.addEventListener('load', function() {
-const workLocations = [
-    { lat: 53.458284, lng: 14.586271, name: 'LIFTRA',                place: 'Szczecin, PL' },
-    { lat: 68.949558, lng: 15.654064, name: 'HÅLOGALAND ELEMENT AS', place: 'Risøyhamn, NO' },
-    { lat: 53.434836, lng: 14.530719, name: 'SYNKROS',               place: 'Szczecin, PL' },
-    { lat: 53.414717, lng: 14.426069, name: 'REIN-CAR-NATION',       place: 'Stobno, PL'   },
-    { lat: 53.424972, lng: 14.508809, name: 'HIPER-GLAZUR',          place: 'Szczecin, PL' },
-    { lat: 59.644367, lng: 17.122567, name: 'MARKONA AB',            place: 'Enköping, SE' },
-    { lat: 53.440100, lng: 14.533951, name: 'KADRZYŃSKI',            place: 'Szczecin, PL' }
-];
-
-const workMap = L.map('workmap', { scrollWheelZoom: false });
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18
-}).addTo(workMap);
-
-const pinIcon = L.divIcon({
-    className: '',
-    html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="24" height="36">
-        <path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24S24 21 24 12C24 5.4 18.6 0 12 0z"
-              fill="#4472C4" stroke="white" stroke-width="1.5"/>
-        <circle cx="12" cy="12" r="5" fill="white"/>
-    </svg>`,
-    iconSize: [24, 36],
-    iconAnchor: [12, 36],
-    popupAnchor: [0, -36]
-});
-
-workLocations.forEach(loc => {
-    L.marker([loc.lat, loc.lng], { icon: pinIcon })
-     .addTo(workMap)
-     .bindPopup(`<strong style="color:#4472C4">${loc.name}</strong><br>${loc.place}`);
-});
-
-const bounds = L.latLngBounds(workLocations.map(l => [l.lat, l.lng]));
-workMap.fitBounds(bounds, { padding: [40, 40] });
-
-}); // end window load
-
-function moveMapToActiveLang() {
-    const containerId = lang === 'pl' ? 'workmap'
-                      : lang === 'en' ? 'workmap-en'
-                      : 'workmap-de';
-    const target = document.getElementById(containerId);
-    const mapEl = document.getElementById('workmap');
-    if (target && mapEl && target !== mapEl.parentNode) {
-        target.appendChild(mapEl);
-        setTimeout(() => workMap.invalidateSize(), 50);
-    }
-}
-
-
-
     </script>
 </body>
 </html>
